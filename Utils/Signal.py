@@ -19,8 +19,10 @@ class Connection:
             self = None
 
 class Event:
-    def __init__(self):
+    def new(self):
+        self = Event
         self.Listeners = {}
+        return self
 
     def Connect(self, func):
         # Generate a unique ID for this specific connection

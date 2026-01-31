@@ -65,6 +65,20 @@ class new:
             
         return chosenStudents
     
+    def FromIDOrName(self, IDorName):
+        student = self.FromID(IDorName)
+        if student == None:
+            student = self.FromName(IDorName)
+            if len(student) <= 0:
+                # Student doesn't exist so redo the func
+                return None, None
+            else:
+                # GG now its a list
+                return student, "Name"
+        else:
+            # Found student by ID (only 1)
+            return student, "ID"
+        
     def DeleteStudentFromID(self, ID):
         # chosenStudent = self.LookupStudents[ID]
         if not ID in self.LookupStudents: return

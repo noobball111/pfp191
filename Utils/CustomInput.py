@@ -64,4 +64,5 @@ def Input(Text, FilterList = {}, FilterType = None, RetryUntilValid = True):
         elif FilterType == "Exclude":
             success = Exclude(RawInput, FilterList)
 
+    if RetryUntilValid: return RawInput
     return RawInput, success

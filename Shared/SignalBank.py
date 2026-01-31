@@ -1,4 +1,4 @@
-from Utils import Signal
+from Utils.Signal import Signal
 
 class SignalBank:
     SystemManagerCalled = Signal.new()

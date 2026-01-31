@@ -6,7 +6,7 @@ class new:
         self.LookupStudents = {}
         self._lastSortKey = "ID"
 
-        SignalBank.SystemManagerCalled.Connect(self.All)
+        # SignalBank.SystemManagerCalled.Connect(self.All)
 
     def All(self, WorkType, *args):
         if WorkType == "Add":
@@ -21,7 +21,8 @@ class new:
         self.LookupStudents[student.ID] = student
         
     def FromID(self, ID):
-        if self.LookupStudents[ID] == None: return
+        # if self.LookupStudents[ID] == None: return
+        if not ID in self.LookupStudents: return
         return self.LookupStudents[ID]
     
     def FromName(self, Name):

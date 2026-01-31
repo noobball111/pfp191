@@ -44,7 +44,10 @@ with open("SaveData.txt") as f:
 
 a = Signal.new()
 
-a.Connect(print)
+def b():
+    print("Ball")
+
+a.Connect(b)
 
 a.Fire()
 

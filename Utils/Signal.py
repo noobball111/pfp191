@@ -25,15 +25,12 @@ class Event:
         return self
 
     def Connect(self, func):
-        # Generate a unique ID for this specific connection
         connection_id = uuid.uuid4()
         self.Listeners[connection_id] = func
         
-        # Pass the ID to the connection object
         return Connection(self, connection_id)
 
     def Fire(self, *args):
-        # Iterate over a copy of values to allow Disconnect during Fire
         for func in list(self.Listeners.values()):
             func(*args)
 

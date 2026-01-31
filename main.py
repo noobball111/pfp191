@@ -41,14 +41,4 @@ with open("SaveData.txt") as f:
 
             SystemManager.AddStudent(student)
 
-
-a = Signal.new()
-
-def b():
-    print("Ball")
-
-a.Connect(b)
-
-a.Fire()
-
-CLI.Start()
+# CLI.Start()

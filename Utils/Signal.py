@@ -18,7 +18,7 @@ class Signal:
     def __init__(self):
         self.Listeners = {}
 
-    @staticmethod
+    # @staticmethod 
     def new():
         return Signal()
 

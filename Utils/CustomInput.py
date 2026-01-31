@@ -1,3 +1,5 @@
+import msvcrt
+
 # Local functions
 
 def IsFloat(value):
@@ -14,27 +16,53 @@ def Include(value, FilterList):
         return True
 
 def Exclude(value, FilterList):
-    if value.isdigit() and FilterList["Int"]:
-        return False
     if IsFloat(value) and FilterList["Float"]:
+        return False
+    if value.isdigit() and FilterList["Int"]:
         return False
     
     return True
 
-class CustomInput:
-    def Input(Text, FilterList = {}, FilterType = None):
+def AwaitNumInputs():
+    key = 'a'
+    while not key.isdigit():
+        key = msvcrt.getch().decode('utf-8')
+
+    return int(key)
+
+def AwaitNumInputsBelow(n):
+    key = n
+    while key >= n:
+        key = AwaitNumInputs()
+        print("Key captured: ", key)
+
+    return key
+
+def Input(Text, FilterList = {}, FilterType = None, RetryUntilValid = True):
         
-        """
-        Filter List dict:
-        +Int
-        +Float
-        """
-        
+    """
+    Filter List dict:
+    +Int
+    +Float
+    """
+    
+    success = False
+    
+    RawInput = input(Text)
+    if FilterType == "Include":
+        success = Include(RawInput, FilterList) 
+    elif FilterType == "Exclude":
+        success = Exclude(RawInput, FilterList)
+    else:
+        success = True
+
+    while (RetryUntilValid and not success):
+        print("Invalid input, please re-enter!")
         RawInput = input(Text)
         if FilterType == "Include":
-            return RawInput, Include(RawInput, FilterList)
+            success = Include(RawInput, FilterList) 
         elif FilterType == "Exclude":
-            return RawInput, Exclude(RawInput, FilterList)
-        else:
-            return RawInput, "Str"
+            success = Exclude(RawInput, FilterList)
+
+    return RawInput, success
         

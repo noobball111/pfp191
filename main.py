@@ -1,9 +1,11 @@
 from Classes import StudentObject
 from Classes import ScoresObject
-
+0
 from Services import SystemManagerService
+from Services import UIController
 
 SystemManager = SystemManagerService.new()
+CLI = UIController.new()
 
 subjectAmount = 0
 subjects = []
@@ -22,11 +24,11 @@ with open("SaveData.txt") as f:
                 subjects.append(w)
         else:
             """
-                [1] = ID
-                [2] = Name
-                [3] = BirthYear
-                [4] = Major
-                [5..n] = Subjects' Scores
+                [0] = ID
+                [1] = Name
+                [2] = BirthYear
+                [3] = Major
+                [4..n] = Subjects' Scores
             """
             subjectScores = {}
             for j in range(len(subjects)):
@@ -34,6 +36,5 @@ with open("SaveData.txt") as f:
             
             scores = ScoresObject.new(subjectScores)
             student = StudentObject.new(words[0], words[1], words[2], words[3], scores)
-            print(student)
             
-            
+CLI.Start()

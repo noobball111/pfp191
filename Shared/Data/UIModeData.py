@@ -20,7 +20,3 @@ Text = {
 Default = "Return"
 
 TextOptions = ["Home", "Search", "Manage students", "Add", "Sort Scores"]
-
-class UIModeData:
-    def __init__(self):
-        return [Default, Text, TextOptions]

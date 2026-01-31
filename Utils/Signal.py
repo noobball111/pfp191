@@ -34,6 +34,6 @@ class Event:
         for func in list(self.Listeners.values()):
             func(*args)
 
-class Signal:
-    def new(self):
+class new:
+    def __init__(self):
         return Event(self)

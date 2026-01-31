@@ -1,8 +1,10 @@
 from Classes import StudentObject
 from Classes import ScoresObject
-0
+
 from Services import SystemManagerService
 from Services import UIController
+
+from Utils.Signal import Signal
 
 SystemManager = SystemManagerService.new()
 CLI = UIController.new()
@@ -38,5 +40,12 @@ with open("SaveData.txt") as f:
             student = StudentObject.new(words[0], words[1], words[2], words[3], scores)
 
             SystemManager.AddStudent(student)
-            
+
+
+a = Signal.new()
+
+a.Connect(print)
+
+a.Fire()
+
 CLI.Start()

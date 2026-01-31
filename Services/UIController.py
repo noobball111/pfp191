@@ -2,8 +2,10 @@ from Shared.Data import UIModeData
 from Utils import CustomInput
 
 import os
-clearCLI = lambda: os.system('cls')
 # [Default, Text, TextOptions]
+
+def ClearCLI():
+    os.system('cls')
 
 class new:
     def __init__(self):
@@ -15,13 +17,13 @@ class new:
     def Start(self):
         #Add loop
         
-        clearCLI()
+        ClearCLI()
         self.Prev.append(self.Cur)
         self.Display(self.Cur)
 
         # inp = CustomInput.Input('', {"Int": True}, "Include")
         inp = CustomInput.AwaitNumInputsBelow(3)
-        clearCLI()
+        ClearCLI()
         print("Chosen ", inp)
 
         #TODO: find all choices in UIModeData.py, then call SystemManagerService to do the relevant functions

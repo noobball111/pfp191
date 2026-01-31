@@ -11,7 +11,6 @@ from Shared.Data import UIModeData
 
 SystemManager = SystemManagerService.new()
 UIModeData.Init(SystemManager)
-print(UIModeData.Nodes)
 
 CLI = UIController.new()
 

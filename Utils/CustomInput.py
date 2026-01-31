@@ -23,10 +23,13 @@ def Exclude(value, FilterList):
     
     return True
 
+def AwaitInput():
+    return msvcrt.getch().decode('utf-8')
+
 def AwaitNumInputs():
     key = 'a'
     while not key.isdigit():
-        key = msvcrt.getch().decode('utf-8')
+        key = AwaitInput()
 
     return int(key)
 

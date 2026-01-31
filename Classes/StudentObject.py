@@ -15,8 +15,8 @@ class new:
         if key == "ID" and self._IDVerificationFunc != None:
             if self._IDVerificationFunc(value):
                 return False
-            
-        self[key] = value
+        
+        setattr(self, key, value)
         return True
     
     def Display(self):

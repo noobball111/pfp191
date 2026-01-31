@@ -31,6 +31,5 @@ class new:
             Selections = self.ModeText[Mode].split(", ")
             AllModes = CreateTextFromOptions(Selections)
         
-        self.Cur = AllModes[CustomInput.Input("", {"Int": True}, "Include")]
-            
+        self.Cur = AllModes[CustomInput.Input("> ", {"Int": True}, "Include")]        
         

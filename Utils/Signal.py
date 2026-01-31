@@ -20,7 +20,7 @@ class Connection:
 
 class Event:
     def new(self):
-        self = Event
+        self = Event.new()
         self.Listeners = {}
         return self
 
@@ -36,3 +36,7 @@ class Event:
         # Iterate over a copy of values to allow Disconnect during Fire
         for func in list(self.Listeners.values()):
             func(*args)
+
+class Signal:
+    def new(self):
+        return Event(self)

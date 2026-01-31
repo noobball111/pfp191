@@ -1,9 +1,17 @@
+from Shared.SignalBank import SignalBank
+
 class new:
     def __init__(self):
         self.Students = []
         self.LookupStudents = {}
         self._lastSortKey = "ID"
-        
+
+        SignalBank.SystemManagerCalled.Connect(self.All)
+
+    def All(self, WorkType, *args):
+        if WorkType == "Add":
+            self.AddStudent(args)
+
     def AddStudent(self, student):
         if self.FromID(student.ID):
             print("Duplicated ID")

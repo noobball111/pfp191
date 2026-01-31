@@ -22,7 +22,7 @@ def Exclude(value, FilterList):
     return True
 
 class CustomInput:
-    def Input(Text, FilterList, FilterType):
+    def Input(Text, FilterList = {}, FilterType = None):
         
         """
         Filter List dict:
@@ -30,12 +30,11 @@ class CustomInput:
         +Float
         """
         
-        if not FilterList:
-            FilterList = {"Int": True, "Float": True}
-        
         RawInput = input(Text)
-        if not FilterType or FilterType == "Include":
-            return Include(RawInput, FilterList)
+        if FilterType == "Include":
+            return RawInput, Include(RawInput, FilterList)
+        elif FilterType == "Exclude":
+            return RawInput, Exclude(RawInput, FilterList)
         else:
-            return Exclude(RawInput, FilterList)
+            return RawInput, "Str"
         

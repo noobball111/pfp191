@@ -5,12 +5,22 @@ from Services import SystemManagerService
 from Services import UIController
 
 from Utils.Signal import Signal
+from Utils import CustomInput
+
+from Shared.Data import UIModeData
 
 SystemManager = SystemManagerService.new()
 CLI = UIController.new()
 
 subjectAmount = 0
 subjects = []
+
+def _searchPreExe():
+    IDorName = CustomInput.Input("Enter Student's ID/Name: ", {"Int": True, "Float": True}, "Exclude") 
+
+    return True
+
+UIModeData.Nodes["Search"]["PreExe"] = _searchPreExe
 
 with open("SaveData.txt") as f:
     i = 0

@@ -34,7 +34,7 @@ def AwaitNumInputsBelow(n):
     key = n
     while key >= n:
         key = AwaitNumInputs()
-        print("Key captured: ", key)
+        # print("Key captured: ", key)
 
     return key
 

@@ -5,7 +5,7 @@ class new:
         self.BirthYear = BirthYear
         self.Major = Major
         self.Scores = Scores
-        #         self._IDVerificationFunc
+        self._IDVerificationFunc = True
         
     def __str__(self):
         return f'My ID: {self.ID}, Name: {self.Name}, Born in {self.BirthYear}, Major: {self.Major}'

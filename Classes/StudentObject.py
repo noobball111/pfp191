@@ -14,10 +14,10 @@ class new:
     def Edit(self, key, value):
         if key == "ID" and self._IDVerificationFunc != None:
             if self._IDVerificationFunc(value):
-                return false
+                return False
             
         self[key] = value
-        return true
+        return True
     
     def Display(self):
         print(self.ID, self.Name)

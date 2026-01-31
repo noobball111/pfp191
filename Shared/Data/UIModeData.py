@@ -1,19 +1,18 @@
-Text = {
+Nodes = {
     "Home": {
-        "Text": "Search, Manage students, Sort Scores"
+        "Text": "Search, Manage students, Sort Scores",
     },
-    
     "Search": {
-        "Text": "Edit name, Edit Birth Year, Edit Major, Edit Scores"
+        "Text": "Edit Name, Edit Birth Year, Edit Major, Edit Scores",
     },
-    "Manage students": {
-        "Text": "Add, Edit, Delete"   
+    "Manage Students": {
+        "Text": "Add, Edit, Delete",
     },
     "Add": {
-        "Text": "Normal add, Quick add"
+        "Text": "Normal Add, Quick Add",
     },
     "Sort Scores": {
-        "Text": "Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major"
+        "Text": "Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major",
     }
 }
 

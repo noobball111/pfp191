@@ -34,7 +34,7 @@ def AwaitNumInputsBelow(n):
     key = n
     while key >= n:
         key = AwaitNumInputs()
-        print("Key captured: ", key)
+        # print("Key captured: ", key)
 
     return key
 
@@ -64,4 +64,5 @@ def Input(Text, FilterList = {}, FilterType = None, RetryUntilValid = True):
         elif FilterType == "Exclude":
             success = Exclude(RawInput, FilterList)
 
+    if RetryUntilValid: return RawInput
     return RawInput, success

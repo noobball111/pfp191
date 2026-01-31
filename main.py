@@ -36,5 +36,7 @@ with open("SaveData.txt") as f:
             
             scores = ScoresObject.new(subjectScores)
             student = StudentObject.new(words[0], words[1], words[2], words[3], scores)
+
+            SystemManager.AddStudent(student)
             
 CLI.Start()

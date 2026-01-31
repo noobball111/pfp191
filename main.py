@@ -41,4 +41,4 @@ with open("SaveData.txt") as f:
 
             SystemManager.AddStudent(student)
 
-# CLI.Start()
+CLI.Start()

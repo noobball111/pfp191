@@ -1,4 +1,5 @@
 from Shared.SignalBank import SignalBank
+from Utils import CustomInput
 
 class new:
     def __init__(self):
@@ -6,11 +7,42 @@ class new:
         self.LookupStudents = {}
         self._lastSortKey = "ID"
 
-        # SignalBank.SystemManagerCalled.Connect(self.All)
+        SignalBank.SystemManagerCalled.Connect(self.All)
 
     def All(self, WorkType, *args):
         if WorkType == "Add":
             self.AddStudent(args)
+        elif WorkType == "EditFromName":
+            Name, Subject, Value = args
+
+            students = self.FromName(Name)
+
+            students[0].Edit(subject, value)
+            #TODO: allow user to choose 1 student using UIController.py
+        elif WorkType == "EditFromID":
+            student = self.FromID(args)
+            subject = CustomInput.Input(f"Enter subject to change: ")
+            value = CustomInput.Input("Enter value: ")
+
+            student.Edit(subject, value)
+            # def Input(Text, FilterList = {}, FilterType = None, RetryUntilValid = True):
+        elif WorkType == "Delete":
+            delType, value = args
+            
+            if delType == "ID":
+                self.DeleteStudentFromID(value)
+            elif delType == "Name":
+                students = self.FromName(value)
+                #TODO: allow to choose 1 from many using UICOntroller
+                   
+                student = students[0]
+
+                if not student: return "Cannot find"
+
+                self.DeleteStudentFromID(student.ID)
+
+
+            
 
     def AddStudent(self, student):
         if self.FromID(student.ID):
@@ -34,7 +66,11 @@ class new:
         return chosenStudents
     
     def DeleteStudentFromID(self, ID):
+        # chosenStudent = self.LookupStudents[ID]
+        if not ID in self.LookupStudents: return
+
         chosenStudent = self.LookupStudents[ID]
+
         if chosenStudent == None: return
         
         self.Students.remove(chosenStudent)

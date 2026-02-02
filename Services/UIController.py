@@ -1,5 +1,7 @@
 from Shared.Data import UIModeData
 from Utils import CustomInput
+from Utils.Signal import Signal
+from Shared.SignalBank import SignalBank
 
 import os
 # [Default, Text, TextOptions]
@@ -12,7 +14,7 @@ class new:
         self.Prev = []
         self.Current = "Home"
         self.DefaultOption = "Return"
-    
+        
     def Start(self):
         ClearCLI()
 

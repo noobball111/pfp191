@@ -2,14 +2,27 @@ from Utils import CustomInput
 
 Nodes = {}
 
+def GetInputWithReturn(text, filterDict, filterMode):
+    oup = CustomInput.Input(text, filterDict, filterMode)
+    # TODO: If not string then just return output (or is this always string idk)
+
+    if oup.lower() == "/r" or oup.lower() == "/return":
+        return "/r"
+    return oup
+
+
 def Init(SystemManager):
     global Nodes
 
     def _searchPreExe():
+        print("Type \"/r | /return\" to go back at any time...")
+
         student = None
         getType = None
         while student == None:
-            IDorName = CustomInput.Input("Enter Student's ID/Name: ", {"Int": True, "Float": True}, "Exclude") 
+            IDorName = GetInputWithReturn("Enter Student's ID/Name: ", {"Int": True, "Float": True}, "Exclude") 
+            if IDorName == "/r": return
+
             student, getType = SystemManager.FromIDOrName(IDorName)
 
         if getType == "ID":
@@ -28,11 +41,15 @@ def Init(SystemManager):
                     print(person)
                 print("-------------------------------------")
 
-                ID = CustomInput.Input("Please enter the desired ID: ", {"Int": True, "Float": True}, "Exclude") 
+                ID = GetInputWithReturn("Please enter the desired ID: ", {"Int": True, "Float": True}, "Exclude")
+                if IDorName == "/r": return
+                
                 student = SystemManager.FromID(ID)
 
                 while student == None:
-                    ID = CustomInput.Input("Enter the right ID please: ", {"Int": True, "Float": True}, "Exclude") 
+                    ID = GetInputWithReturn("Enter the right ID please: ", {"Int": True, "Float": True}, "Exclude") 
+                    if IDorName == "/r": return
+
                     student = SystemManager.FromID(ID)
 
                 print(f"Found student by ID: [{student.ID}] {student.Name}")

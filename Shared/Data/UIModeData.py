@@ -20,8 +20,8 @@ def Init(SystemManager):
         student = None
         getType = None
         while student == None:
-            IDorName = GetInputWithReturn("Enter Student's ID/Name: ", {"Int": True, "Float": True}, "Exclude") 
-            if IDorName == "/r": return
+            IDorName = GetInputWithReturn("Enter Student's ID/Name: ", {"Int": True, "Float": True}, "Exclude")
+            if IDorName == "/r": return None, None
 
             student, getType = SystemManager.FromIDOrName(IDorName)
 
@@ -42,13 +42,13 @@ def Init(SystemManager):
                 print("-------------------------------------")
 
                 ID = GetInputWithReturn("Please enter the desired ID: ", {"Int": True, "Float": True}, "Exclude")
-                if IDorName == "/r": return
+                if ID == "/r": return None, None
                 
                 student = SystemManager.FromID(ID)
 
                 while student == None:
                     ID = GetInputWithReturn("Enter the right ID please: ", {"Int": True, "Float": True}, "Exclude") 
-                    if IDorName == "/r": return
+                    if ID == "/r": return None, None
 
                     student = SystemManager.FromID(ID)
 
@@ -56,22 +56,31 @@ def Init(SystemManager):
 
         SystemManager.CurrentStudent = student
 
-        return True, student
+        return student == None and False or True, student
     
     def _editNamePreExe():
         # This should never happen but just incase ykyk
         student = SystemManager.CurrentStudent
         if student == None: _searchPreExe()
 
+        print("Type \"/r | /return\" to go back at any time...")
         print(f"You are editting student [{student.ID}] - {student.Name}'s Name...")
-        newName = CustomInput.Input(f"Please enter {student.Name}'s new name: ", {"Int": True, "Float": True}, "Exclude") 
+
+        # newName = CustomInput.Input(f"Please enter {student.Name}'s new name: ", {"Int": True, "Float": True}, "Exclude") 
+        newName = GetInputWithReturn(f"Please enter {student.Name}'s new name: ", {"Int": True, "Float": True}, "Exclude") 
+        if newName == "/r": return None, None
 
         print(f"Are you sure you want to change {student.Name} to {newName}? [Y/N]")
-        key = CustomInput.Input("", {"Int": True, "Float": True}, "Exclude") 
+
+        # key = CustomInput.Input("", {"Int": True, "Float": True}, "Exclude") 
+        key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
+        if key == "/r": return None, None
+
 
         if key.lower() != "y":
             _editNamePreExe()
             return
+        
         
         print(f"Successfully changed {student.Name} to {newName}!")
         student.Edit("Name", newName)

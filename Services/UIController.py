@@ -1,7 +1,5 @@
 from Shared.Data import UIModeData
 from Utils import CustomInput
-from Utils.Signal import Signal
-from Shared.SignalBank import SignalBank
 
 import os
 # [Default, Text, TextOptions]
@@ -14,7 +12,7 @@ class new:
         self.Prev = []
         self.Current = "Home"
         self.DefaultOption = "Return"
-        
+    
     def Start(self):
         ClearCLI()
 
@@ -39,8 +37,18 @@ class new:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
 
         node = UIModeData.Nodes[self.Current]
-        if "PreExe" in node:
-            node["PreExe"]()
+
+        success = False
+
+        # if "PreExe" in node:
+        #     success = node["PreExe"]()
+
+        while not success and success != None:
+            success = node["PreExe"]()
+        
+        if success == None:
+            self.Current = "Home" if not self.Prev else self.Prev.pop()
+            ClearCLI()
 
         self.ComputeSelections()
         self.Display()

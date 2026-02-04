@@ -70,45 +70,40 @@ def Init(SystemManager):
         else:
             return ReturnSuccessRetry(True, True)
     
-    def _editNamePreExe():
-        # This should never happen but just incase ykyk
-        student = SystemManager.CurrentStudent
-        if student == None: _findAStudentPreExe()
+    def GetEditAttributePreExe(propName, propDisplayName, filterDict, filterType):
+        def anonymous():
+            # This should never happen but just incase ykyk
+            student = SystemManager.CurrentStudent
+            if student == None: _findAStudentPreExe()
 
-        print("Type \"/r | /return\" to go back at any time...")
-        print(f"You are editting student [{student.ID}] - {student.Name}'s Name...")
+            print("Type \"/r | /return\" to go back at any time...")
+            print(f"You are editting student [{student.ID}] - {getattr(student, "Name")}'s {propName}...")
 
-        # newName = CustomInput.Input(f"Please enter {student.Name}'s new name: ", {"Int": True, "Float": True}, "Exclude") 
-        newName = GetInputWithReturn(f"Please enter {student.Name}'s new name: ", {"Int": True, "Float": True}, "Exclude") 
-        if newName == "/r": return ReturnSuccessRetry(False, False)
+            studentProp = getattr(student, propName)
 
-        print(f"Are you sure you want to change {student.Name} to {newName}? [Y/N]")
+            newPropVal = GetInputWithReturn(f"Please enter {getattr(student, "Name")}'s new {propDisplayName}: ", filterDict, filterType) 
+            if newPropVal == "/r": return ReturnSuccessRetry(False, False)
 
-        # key = CustomInput.Input("", {"Int": True, "Float": True}, "Exclude") 
-        key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
+            print(f"Are you sure you want to change {studentProp} to {newPropVal}? [Y/N]")
+
+            key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
+            
+            successData = ReturnSuccessRetry(True, key.lower() != 'y')
+            successData[propName] = newPropVal
+
+            return successData
+
+        return anonymous
         
-        successData = ReturnSuccessRetry(True, key.lower() != 'y')
-        successData["NewName"] = newName
+    def GetEditAttributePostExe(propName, propDisplayName):
+        def anonymous(successData):
+            student = SystemManager.CurrentStudent
 
-        return successData
+            print(f"Successfully changed {propDisplayName} from {successData[propName]} to {successData[propName]}!")
+            student.Edit(propName, successData[propName])
+            print(student)
 
-        # if key.lower() != "y":
-        #     _editNamePreExe()
-        #     return
-        
-        
-        # print(f"Successfully changed {student.Name} to {newName}!")
-        # student.Edit("Name", newName)
-        # print(student)
-
-        # return True
-
-    def _editNamePostExe(successData):
-        student = SystemManager.CurrentStudent
-
-        print(f"Successfully changed {successData["NewName"]} to {successData["NewName"]}!")
-        student.Edit("Name", successData["NewName"])
-        print(student)
+        return anonymous
 
     def _displayStudentListPreExe():
         for student in SystemManager.Students:
@@ -120,6 +115,7 @@ def Init(SystemManager):
         "Home": {
             "Text": "Find A Student, Manage students, Sort Scores, Display Student List",
         },
+
         "Find A Student": {
             "Text": "Find A Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores",
             "PreExe": _findAStudentPreExe,
@@ -127,19 +123,38 @@ def Init(SystemManager):
         "Manage Students": {
             "Text": "Add, Edit, Delete",
         },
-        "Add": {
-            "Text": "Normal Add, Quick Add",
+        "Sort Scores": {
+            "Text": "Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major",
         },
         "Display Student List": {
             "Text": "Find A Student",
             "PreExe": _displayStudentListPreExe,
         },
-        "Sort Scores": {
-            "Text": "Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major",
-        },
+
+        # Find A Student
         "Edit Name": {
             "Text": "",
-            "PreExe": _editNamePreExe,
-            "PostExe": _editNamePostExe,
-        }
+            "PreExe": GetEditAttributePreExe("Name", "Name", {"Int": True, "Float": True}, "Exclude"),
+            "PostExe": GetEditAttributePostExe("Name", "Name"),
+        },
+        "Edit Birth Year": {
+            "Text": "",
+            "PreExe": GetEditAttributePreExe("BirthYear", "Birth Year", {"Int": True}, "Include"),
+            "PostExe": GetEditAttributePostExe("BirthYear", "Birth Year"),
+        },
+        "Edit Major": {
+            "Text": "",
+            "PreExe": GetEditAttributePreExe("Major", "Major", {"Int": True, "Float": True}, "Exclude"),
+            "PostExe": GetEditAttributePostExe("Major", "Major"),
+        },
+        # "Edit Scores": {
+        #     "Text": "",
+        #     "PreExe": _editNamePreExe,
+        #     "PostExe": _editNamePostExe,
+        # },
+
+        # Manage Students
+        "Add": {
+            "Text": "Normal Add, Quick Add",
+        },
     }

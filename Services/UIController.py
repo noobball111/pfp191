@@ -33,16 +33,15 @@ class new:
         oldCurrent = self.Current
 
         self.Current = self.Selections[idx]
-        if self.Current == "Return":
+        isReturnCMD = self.Current == "Return"
+
+        if isReturnCMD:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
 
         node = UIModeData.Nodes[self.Current]
         # Only execute if found the PreExe function of the node (nodes like Home won't have any so just skip)
         if "PreExe" in node:
             successData = UIModeData.ReturnSuccessRetry(False, True)
-
-            # if "PreExe" in node:
-            #     success = node["PreExe"]()
 
             while successData["Retry"]:
                 successData = node["PreExe"]()
@@ -52,6 +51,10 @@ class new:
                 ClearCLI()
             else:
                 if "PostExe" in node: node["PostExe"](successData)
+                # It's 2 steps behind but it's better UX wise I think
+                if not isReturnCMD:
+                    self.Prev.append(oldCurrent)
+
 
         self.ComputeSelections()
         self.Display()

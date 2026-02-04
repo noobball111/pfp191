@@ -8,7 +8,7 @@ class new:
         self._IDVerificationFunc = True
         
     def __str__(self):
-        return f'My ID: {self.ID}, Name: {self.Name}, Born in {self.BirthYear}, Major: {self.Major}'
+        return f'[{self.ID}] {self.Name}, Born in {self.BirthYear}, Major: {self.Major}'
         
         
     def Edit(self, key, value):

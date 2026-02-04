@@ -73,7 +73,7 @@ def Init(SystemManager):
     def _editNamePreExe():
         # This should never happen but just incase ykyk
         student = SystemManager.CurrentStudent
-        if student == None: _searchPreExe()
+        if student == None: _findAStudentPreExe()
 
         print("Type \"/r | /return\" to go back at any time...")
         print(f"You are editting student [{student.ID}] - {student.Name}'s Name...")
@@ -111,7 +111,10 @@ def Init(SystemManager):
         print(student)
 
     def _displayStudentListPreExe():
-        pass
+        for student in SystemManager.Students:
+            print(student)
+
+        return ReturnSuccessRetry(True, False)
 
     Nodes = {
         "Home": {
@@ -128,7 +131,8 @@ def Init(SystemManager):
             "Text": "Normal Add, Quick Add",
         },
         "Display Student List": {
-            "Text": "Find A Student", 
+            "Text": "Find A Student",
+            "PreExe": _displayStudentListPreExe,
         },
         "Sort Scores": {
             "Text": "Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major",

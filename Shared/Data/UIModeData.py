@@ -99,7 +99,7 @@ def Init(SystemManager):
         def anonymous(successData):
             student = SystemManager.CurrentStudent
 
-            print(f"Successfully changed {propDisplayName} from {successData[propName]} to {successData[propName]}!")
+            print(f"Successfully changed {propDisplayName} from {getattr(student, propName)} to {successData[propName]}!")
             student.Edit(propName, successData[propName])
             print(student)
 

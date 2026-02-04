@@ -113,7 +113,7 @@ def Init(SystemManager):
 
     Nodes = {
         "Home": {
-            "Text": "Find A Student, Manage students, Sort Scores, Display Student List",
+            "Text": "Find A Student, Manage Students, Sort Scores, Display Student List",
         },
 
         "Find A Student": {

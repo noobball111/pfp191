@@ -24,7 +24,7 @@ def ReturnSuccessRetry(success, retry):
 def Init(SystemManager):
     global Nodes
 
-    def _searchPreExe():
+    def _findAStudentPreExe():
         print("Type \"/r | /return\" to go back at any time...")
 
         student = None
@@ -110,19 +110,25 @@ def Init(SystemManager):
         student.Edit("Name", successData["NewName"])
         print(student)
 
+    def _displayStudentListPreExe():
+        pass
+
     Nodes = {
         "Home": {
-            "Text": "Search, Manage students, Sort Scores",
+            "Text": "Find A Student, Manage students, Sort Scores, Display Student List",
         },
-        "Search": {
-            "Text": "Find Another Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores",
-            "PreExe": _searchPreExe,
+        "Find A Student": {
+            "Text": "Find A Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores",
+            "PreExe": _findAStudentPreExe,
         },
         "Manage Students": {
             "Text": "Add, Edit, Delete",
         },
         "Add": {
             "Text": "Normal Add, Quick Add",
+        },
+        "Display Student List": {
+            "Text": "Find A Student", 
         },
         "Sort Scores": {
             "Text": "Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major",

@@ -10,6 +10,16 @@ def GetInputWithReturn(text, filterDict, filterMode):
         return "/r"
     return oup
 
+def ReturnSuccessRetry(success, retry):
+    # Success: True when function completed without /r, False if /r is used
+    # Retry: True when you want to retry (like re-entering name), False if you want to end it right there
+    # Retry should only be false when it is /r, otherwise the data won't be validated and bug the whole program
+
+    return {
+            "Success": success,
+            "Retry": retry,
+        }
+
 
 def Init(SystemManager):
     global Nodes
@@ -21,7 +31,7 @@ def Init(SystemManager):
         getType = None
         while student == None:
             IDorName = GetInputWithReturn("Enter Student's ID/Name: ", {"Int": True, "Float": True}, "Exclude")
-            if IDorName == "/r": return None, None
+            if IDorName == "/r": return ReturnSuccessRetry(False, False)
 
             student, getType = SystemManager.FromIDOrName(IDorName)
 
@@ -42,21 +52,23 @@ def Init(SystemManager):
                 print("-------------------------------------")
 
                 ID = GetInputWithReturn("Please enter the desired ID: ", {"Int": True, "Float": True}, "Exclude")
-                if ID == "/r": return None, None
+                if ID == "/r": return ReturnSuccessRetry(False, False)
                 
                 student = SystemManager.FromID(ID)
 
                 while student == None:
                     ID = GetInputWithReturn("Enter the right ID please: ", {"Int": True, "Float": True}, "Exclude") 
-                    if ID == "/r": return None, None
+                    if ID == "/r": return ReturnSuccessRetry(False, False)
 
                     student = SystemManager.FromID(ID)
 
                 print(f"Found student by ID: [{student.ID}] {student.Name}")
 
-        SystemManager.CurrentStudent = student
-
-        return student == None and False or True, student
+        if student != None:
+            SystemManager.CurrentStudent = student
+            return ReturnSuccessRetry(True, False)
+        else:
+            return ReturnSuccessRetry(True, True)
     
     def _editNamePreExe():
         # This should never happen but just incase ykyk
@@ -68,32 +80,42 @@ def Init(SystemManager):
 
         # newName = CustomInput.Input(f"Please enter {student.Name}'s new name: ", {"Int": True, "Float": True}, "Exclude") 
         newName = GetInputWithReturn(f"Please enter {student.Name}'s new name: ", {"Int": True, "Float": True}, "Exclude") 
-        if newName == "/r": return None, None
+        if newName == "/r": return ReturnSuccessRetry(False, False)
 
         print(f"Are you sure you want to change {student.Name} to {newName}? [Y/N]")
 
         # key = CustomInput.Input("", {"Int": True, "Float": True}, "Exclude") 
         key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
-        if key == "/r": return None, None
+        
+        successData = ReturnSuccessRetry(True, key.lower() != 'y')
+        successData["NewName"] = newName
 
+        return successData
 
-        if key.lower() != "y":
-            _editNamePreExe()
-            return
+        # if key.lower() != "y":
+        #     _editNamePreExe()
+        #     return
         
         
-        print(f"Successfully changed {student.Name} to {newName}!")
-        student.Edit("Name", newName)
+        # print(f"Successfully changed {student.Name} to {newName}!")
+        # student.Edit("Name", newName)
+        # print(student)
+
+        # return True
+
+    def _editNamePostExe(successData):
+        student = SystemManager.CurrentStudent
+
+        print(f"Successfully changed {successData["NewName"]} to {successData["NewName"]}!")
+        student.Edit("Name", successData["NewName"])
         print(student)
-
-        return True
 
     Nodes = {
         "Home": {
             "Text": "Search, Manage students, Sort Scores",
         },
         "Search": {
-            "Text": "Edit Name, Edit Birth Year, Edit Major, Edit Scores",
+            "Text": "Find Another Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores",
             "PreExe": _searchPreExe,
         },
         "Manage Students": {
@@ -108,5 +130,6 @@ def Init(SystemManager):
         "Edit Name": {
             "Text": "",
             "PreExe": _editNamePreExe,
+            "PostExe": _editNamePostExe,
         }
     }

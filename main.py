@@ -17,8 +17,6 @@ CLI = UIController.new()
 subjectAmount = 0
 subjects = []
 
-
-
 with open("SaveData.txt") as f:
     i = 0
     for line in f:

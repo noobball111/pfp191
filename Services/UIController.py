@@ -37,18 +37,21 @@ class new:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
 
         node = UIModeData.Nodes[self.Current]
+        # Only execute if found the PreExe function of the node (nodes like Home won't have any so just skip)
+        if "PreExe" in node:
+            successData = UIModeData.ReturnSuccessRetry(False, True)
 
-        success = False
+            # if "PreExe" in node:
+            #     success = node["PreExe"]()
 
-        # if "PreExe" in node:
-        #     success = node["PreExe"]()
-
-        while not success and success != None:
-            success = node["PreExe"]()
-        
-        if success == None:
-            self.Current = "Home" if not self.Prev else self.Prev.pop()
-            ClearCLI()
+            while successData["Retry"]:
+                successData = node["PreExe"]()
+            
+            if not successData["Success"]:
+                self.Current = "Home" if not self.Prev else self.Prev.pop()
+                ClearCLI()
+            else:
+                if "PostExe" in node: node["PostExe"](successData)
 
         self.ComputeSelections()
         self.Display()
@@ -60,23 +63,28 @@ class new:
         self.Next(inp)
         
     def CreateTextFromOptions(self, array):
-        AllModes = []
+        # AllModes = []
+
+        # print("Array length: ", len(array))
 
         for i in range(len(array) - 1):
             print(array[i + 1], "["+str(i + 1)+"]")
-            AllModes.append(array[i + 1])
+            # AllModes.append(array[i + 1])
 
         if self.Current != "Home":
             print("Return [0]")
 
-        return AllModes
+        # return AllModes
     
     def ComputeSelections(self):
         optionText = UIModeData.Nodes[self.Current]["Text"]
-        optionText = "Return, " + optionText
+        if len(optionText) >= 1:
+            optionText = "Return, " + optionText
+        else:
+            optionText = "Return"
 
         self.Selections = optionText.split(", ")
     
     def Display(self): 
-        AllModes = self.CreateTextFromOptions(self.Selections)     
+        self.CreateTextFromOptions(self.Selections)     
         

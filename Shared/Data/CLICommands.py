@@ -104,6 +104,18 @@ def Init(SystemManager):
             print(student)
 
         return anonymous
+    
+    def GetNormalAddPreExe():
+        print("Type \"/r | /return\" to go back at any time...")
+
+        Name = GetInputWithReturn("Enter Student's Name: ", {"Int": True, "Float": True}, "Exclude")
+        if Name == "/r": return ReturnSuccessRetry(False, False)
+
+        print("")
+
+    def GetNormalAddPostExe():
+        pass
+
 
     def _displayStudentListPreExe():
         for student in SystemManager.Students:
@@ -157,4 +169,21 @@ def Init(SystemManager):
         "Add": {
             "Text": "Normal Add, Quick Add",
         },
+        "Normal Add": {
+            "Text": "",
+            "PreExe": ""
+        },
+        "Quick Add": {
+
+        },
+
+        "NewIDMode":{
+            "Text": "Auto, Manual"
+        }
+        "Auto":{
+
+        }
+        "Manual": {
+            
+        }
     }

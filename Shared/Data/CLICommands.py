@@ -69,12 +69,24 @@ def Init(SystemManager):
             return ReturnSuccessRetry(True, False)
         else:
             return ReturnSuccessRetry(True, True)
+        
+    def TryToFindCurrentStudent():
+        student = getattr(SystemManager, "CurrentStudent", None)
+        if student == None:
+            findSuccessData = ReturnSuccessRetry(True, True)
+            while findSuccessData["Retry"]:
+                findSuccessData = _findAStudentPreExe()
+                
+            # Update the var incase it found a student
+            student = getattr(SystemManager, "CurrentStudent", None)
+            if student == None: return ReturnSuccessRetry(False, False), None
+
+        return ReturnSuccessRetry(True, False), student
     
     def GetEditAttributePreExe(propName, propDisplayName, filterDict, filterType):
         def anonymous():
-            # This should never happen but just incase ykyk
-            student = SystemManager.CurrentStudent
-            if student == None: return ReturnSuccessRetry(False, False)
+            findSuccessData, student = TryToFindCurrentStudent()
+            if student == None: return findSuccessData
 
             print("Type \"/r | /return\" to go back at any time...")
             print(f"You are editting student [{student.ID}] - {getattr(student, "Name")}'s {propName}...")
@@ -133,16 +145,8 @@ def Init(SystemManager):
 
     def _deleteStudentPreExe():
         # This should never happen but just incase ykyk
-        # TODO: Make this a compact function to use for anything that needs a student beforehand too
-        student = getattr(SystemManager, "CurrentStudent", None)
-        if student == None:
-            findSuccessData = ReturnSuccessRetry(True, True)
-            while findSuccessData["Retry"]:
-                findSuccessData = _findAStudentPreExe()
-                
-            # Update the var incase it found a student
-            student = getattr(SystemManager, "CurrentStudent", None)
-            if student == None: return ReturnSuccessRetry(False, False)
+        findSuccessData, student = TryToFindCurrentStudent()
+        if student == None: return findSuccessData
 
         print(f"Are you sure you want to delete the student [{student.ID}] - {student.Name}? [Y/N]")
 

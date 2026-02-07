@@ -16,6 +16,9 @@ class new:
     def Start(self):
         ClearCLI()
 
+        print(f"[Path]: Home")
+        print("------------------------------")
+
         self.ComputeSelections()
         self.Display()
 
@@ -44,11 +47,24 @@ class new:
         else:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
 
+        path = ""
+        for item in self.Prev:
+            path += item + " -> "
+
+        if self.Current != "Return":
+            path += self.Current
+        else:
+            path = path[:-4]
+
+        ClearCLI()
+
+        print(f"[Path]: {path}")
+        print("------------------------------")
+
         node = CLICommands.Nodes[self.Current]
         # Only execute if found the PreExe function of the node (nodes like Home won't have any so just skip)
         # If found PreExe then PostExe can only run after PreExe fulfill the conditions
         # Otherwise PostExe can run standalone
-        ClearCLI()
         if "PreExe" in node:
             successData = CLICommands.ReturnSuccessRetry(False, True)
 
@@ -67,7 +83,7 @@ class new:
         else:
             # Since there's no "PreExe", there's no success data for commands with only PostExe
             if "PostExe" in node: node["PostExe"]()
-            
+
         self.ComputeSelections()
         self.Display()
 

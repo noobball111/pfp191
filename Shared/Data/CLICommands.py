@@ -133,8 +133,16 @@ def Init(SystemManager):
 
     def _deleteStudentPreExe():
         # This should never happen but just incase ykyk
-        student = SystemManager.CurrentStudent
-        if student == None: return ReturnSuccessRetry(False, False)
+        # TODO: Make this a compact function to use for anything that needs a student beforehand too
+        student = getattr(SystemManager, "CurrentStudent", None)
+        if student == None:
+            findSuccessData = ReturnSuccessRetry(True, True)
+            while findSuccessData["Retry"]:
+                findSuccessData = _findAStudentPreExe()
+                
+            # Update the var incase it found a student
+            student = getattr(SystemManager, "CurrentStudent", None)
+            if student == None: return ReturnSuccessRetry(False, False)
 
         print(f"Are you sure you want to delete the student [{student.ID}] - {student.Name}? [Y/N]")
 
@@ -164,7 +172,7 @@ def Init(SystemManager):
             "PreExe": _findAStudentPreExe,
         },
         "Manage Students": {
-            "Text": "Add, Edit, Delete",
+            "Text": "Add A Student, Edit A Student, Delete A Student",
         },
         "Sort Scores": {
             "Text": "Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major",
@@ -202,7 +210,7 @@ def Init(SystemManager):
         },
 
         # Manage Students
-        "Add": {
+        "Add A Student": {
             "Text": "Normal Add, Quick Add",
         },
         "Normal Add": {
@@ -223,5 +231,11 @@ def Init(SystemManager):
         "Manual ID": {
             "Text": "",
             "PreExe": print()
-        }
+        },
+
+        "Delete A Student": {
+            "Text": "",
+            "PreExe": _deleteStudentPreExe,
+            "PostExe": _deleteStudentPostExe,
+        },
     }

@@ -1,12 +1,14 @@
+from typing import Callable, Any
+
 class new:
-    def __init__(self, subjects):
+    def __init__(self, subjects: dict[str, int]):
         self._subjects = subjects
         
-    def SetChangedCallback(self, func):
+    def SetChangedCallback(self, func: Callable[..., Any]):
         self._onChangedCallback = func
         
-    def Edit(self, subject, value):
-        if self._subjects[subject] == None:
+    def Edit(self, subject: str, value: int):
+        if self._subjects[subject] != int:
             print("No valid subject for", subject)
             return
         

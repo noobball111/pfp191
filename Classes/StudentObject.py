@@ -1,19 +1,20 @@
-class Student: 
-    def __init__(self, ID, Name, BirthYear, Major, Scores):
+from typing import Any, Callable
+
+class Student:
+    def __init__(self, ID: str, Name: str, BirthYear: int, Major: str, Scores: dict[str, int]):
+        _IDVerificationFunc: bool
+
         self.ID = ID
         self.Name = Name
         self.BirthYear = BirthYear
         self.Major = Major
         self.Scores = Scores
-        self._IDVerificationFunc = True
+        self._IDVerificationFunc: Callable[..., str]
         
     def __str__(self):
         return f'[{self.ID}] {self.Name}, Born in {self.BirthYear}, Major: {self.Major}'
         
-    def new(self, *args):
-        return Student(self, args)
-
-    def Edit(self, key, value):
+    def Edit(self, key: str, value: Any):
         if key == "ID" and self._IDVerificationFunc != None:
             if self._IDVerificationFunc(value):
                 return False

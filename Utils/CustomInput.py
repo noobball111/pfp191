@@ -1,21 +1,22 @@
 import msvcrt
+# from typing import Any
 
 # Local functions
 
-def IsFloat(value):
+def IsFloat(value: str):
     try:
         float(value)
         return True
     except:
         return False
 
-def Include(value, FilterList):
+def Include(value: str, FilterList: dict[str, bool]):
     if value.isdigit() and FilterList["Int"]:
         return True
     if IsFloat(value) and FilterList["Float"]:
         return True
 
-def Exclude(value, FilterList):
+def Exclude(value: str, FilterList: dict[str, bool]):
     if IsFloat(value) and FilterList["Float"]:
         return False
     if value.isdigit() and FilterList["Int"]:
@@ -26,22 +27,22 @@ def Exclude(value, FilterList):
 def AwaitInput():
     return msvcrt.getch().decode('utf-8')
 
-def AwaitNumInputs():
+def AwaitNumInputs() -> int:
     key = 'a'
     while not key.isdigit():
         key = AwaitInput()
 
     return int(key)
 
-def AwaitNumInputsBelow(n):
-    key = n
+def AwaitNumInputsBelow(n: int) -> int:
+    key: int = n
     while key >= n:
         key = AwaitNumInputs()
         # print("Key captured: ", key)
 
     return key
 
-def Input(Text, FilterList = {}, FilterType = None, RetryUntilValid = True):
+def Input(Text: str, FilterList: dict[str, bool] = {}, FilterType: str | None = None, RetryUntilValid: bool = True):
         
     """
     Filter List dict:

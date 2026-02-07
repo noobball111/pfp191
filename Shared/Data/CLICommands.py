@@ -237,6 +237,11 @@ def Init(SystemManager):
             "PreExe": print()
         },
 
+        "Edit A Student": {
+            "Text": "Find A Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
+            "PreExe": _findAStudentPreExe,
+        },
+
         "Delete A Student": {
             "Text": "",
             "PreExe": _deleteStudentPreExe,

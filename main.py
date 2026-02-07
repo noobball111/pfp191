@@ -1,5 +1,5 @@
-from Classes import StudentObject
-from Classes import ScoresObject
+from Classes.StudentObject import StudentObject
+from Classes.ScoresObject import ScoresObject
 
 from Services import SystemManagerService
 from Services import UIController
@@ -41,8 +41,8 @@ with open("SaveData.txt") as f:
             for j in range(len(subjects)):
                 subjectScores[subjects[j]] = words[j + 4]
             
-            scores = ScoresObject.new(subjectScores)
-            student = StudentObject.new(words[0], words[1], words[2], words[3], scores)
+            scores = ScoresObject(subjectScores)
+            student = StudentObject(words[0], words[1], words[2], words[3], scores)
 
             SystemManager.AddStudent(student)
 

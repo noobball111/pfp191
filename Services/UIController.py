@@ -37,9 +37,13 @@ class new:
 
         if isReturnCMD:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
+        else:
+            self.Prev.append(oldCurrent)
 
         node = CLICommands.Nodes[self.Current]
         # Only execute if found the PreExe function of the node (nodes like Home won't have any so just skip)
+        # If found PreExe then PostExe can only run after PreExe fulfill the conditions
+        # Otherwise PostExe can run standalone
         if "PreExe" in node:
             successData = CLICommands.ReturnSuccessRetry(False, True)
 
@@ -51,9 +55,13 @@ class new:
                 ClearCLI()
             else:
                 if "PostExe" in node: node["PostExe"](successData)
-                # It's 2 steps behind but it's better UX wise I think
-                if not isReturnCMD:
-                    self.Prev.append(oldCurrent)
+
+                # if not isReturnCMD:
+                #     self.Prev.append(self.Current)
+        else:
+            # Since there's no "PreExe", there's no success data for commands with only PostExe
+            if "PostExe" in node: node["PostExe"]()
+            print("did post exe")
 
 
         self.ComputeSelections()

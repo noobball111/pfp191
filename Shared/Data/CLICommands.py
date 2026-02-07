@@ -117,7 +117,7 @@ def Init(SystemManager):
         pass
 
 
-    def _displayStudentListPreExe():
+    def _displayStudentListPostExe():
         for student in SystemManager.Students:
             print(student)
 
@@ -136,7 +136,7 @@ def Init(SystemManager):
         student = SystemManager.CurrentStudent
         if student == None: return ReturnSuccessRetry(False, False)
 
-        print(f"Are you sure you want to delete the student [{successData.DeletedStudent.ID}] - {successData.DeletedStudent.Name}? [Y/N]")
+        print(f"Are you sure you want to delete the student [{student.ID}] - {student.Name}? [Y/N]")
 
         key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
         if key.lower() != 'y':
@@ -147,10 +147,12 @@ def Init(SystemManager):
         SystemManager.CurrentStudent = None
 
         successData = ReturnSuccessRetry(True, False)
-        successData.DeletedStudent = student
+        successData["DeletedStudent"] = student
+
+        return successData
 
     def _deleteStudentPostExe(successData):
-        print(f"Successfully deleted student [{successData.DeletedStudent.ID}] - {successData.DeletedStudent.Name}")
+        print(f"Successfully deleted student [{successData["DeletedStudent"].ID}] - {successData["DeletedStudent"].Name}")
 
     Nodes = {
         "Home": {
@@ -169,7 +171,7 @@ def Init(SystemManager):
         },
         "Display Student List": {
             "Text": "Find A Student",
-            "PreExe": _displayStudentListPreExe,
+            "PostExe": _displayStudentListPostExe,
         },
 
         # Find A Student

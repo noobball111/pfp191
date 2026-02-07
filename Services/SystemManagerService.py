@@ -5,7 +5,7 @@ class new:
     def __init__(self):
         self.Students = []
         self.LookupStudents = {}
-        self._lastSortKey = "ID"
+        self._lastSortKey = "ID" 
 
         SignalBank.SystemManagerCalled.Connect(self.All)
 

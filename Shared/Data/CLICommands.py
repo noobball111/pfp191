@@ -74,7 +74,7 @@ def Init(SystemManager):
         def anonymous():
             # This should never happen but just incase ykyk
             student = SystemManager.CurrentStudent
-            if student == None: _findAStudentPreExe()
+            if student == None: return ReturnSuccessRetry(False, False)
 
             print("Type \"/r | /return\" to go back at any time...")
             print(f"You are editting student [{student.ID}] - {getattr(student, "Name")}'s {propName}...")
@@ -123,9 +123,34 @@ def Init(SystemManager):
 
         return ReturnSuccessRetry(True, False)
 
-    def GenerateID() -> str:
-        # return "SE21"+str(len(SystemManager.Students))
-        return "dsjahdjadhkuas"
+    # def GenerateID() -> str:
+    #     # return "SE21"+str(len(SystemManager.Students))
+    #     return "dsjahdjadhkuas"
+
+    def _editScoresPreExe():
+        # TODO: Display all subjects in alphabetical order, then let the user choose the subject in question
+        pass
+
+    def _deleteStudentPreExe():
+        # This should never happen but just incase ykyk
+        student = SystemManager.CurrentStudent
+        if student == None: return ReturnSuccessRetry(False, False)
+
+        print(f"Are you sure you want to delete the student [{successData.DeletedStudent.ID}] - {successData.DeletedStudent.Name}? [Y/N]")
+
+        key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
+        if key.lower() != 'y':
+            # Return them back
+            return ReturnSuccessRetry(False, False)
+
+        SystemManager.DeleteStudentFromID(student.ID)
+        SystemManager.CurrentStudent = None
+
+        successData = ReturnSuccessRetry(True, False)
+        successData.DeletedStudent = student
+
+    def _deleteStudentPostExe(successData):
+        print(f"Successfully deleted student [{successData.DeletedStudent.ID}] - {successData.DeletedStudent.Name}")
 
     Nodes = {
         "Home": {
@@ -133,7 +158,7 @@ def Init(SystemManager):
         },
 
         "Find A Student": {
-            "Text": "Find A Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores",
+            "Text": "Find A Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
             "PreExe": _findAStudentPreExe,
         },
         "Manage Students": {
@@ -168,6 +193,11 @@ def Init(SystemManager):
         #     "PreExe": _editNamePreExe,
         #     "PostExe": _editNamePostExe,
         # },
+        "Delete The Student": {
+            "Text": "",
+            "PreExe": _deleteStudentPreExe,
+            "PostExe": _deleteStudentPostExe,
+        },
 
         # Manage Students
         "Add": {

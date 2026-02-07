@@ -1,6 +1,6 @@
 from typing import Callable, Any
 
-class new:
+class Scores:
     def __init__(self, subjects: dict[str, int]):
         self._subjects = subjects
         

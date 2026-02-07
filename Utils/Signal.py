@@ -16,13 +16,13 @@ class Connection:
 
 class Signal:
     def __init__(self):
-        self.Listeners = {}
+        self.Listeners: dict[str, function] = {}
 
     # @staticmethod 
-    def new():
+    def new(self):
         return Signal()
 
-    def Connect(self, func):
+    def Connect(self, func: function):
         connection_id = uuid.uuid4()
         self.Listeners[connection_id] = func
         return Connection(self, connection_id)

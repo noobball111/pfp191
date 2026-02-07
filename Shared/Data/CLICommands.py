@@ -2,7 +2,7 @@ from Utils import CustomInput
 
 Nodes = {}
 
-def GetInputWithReturn(text, filterDict, filterMode):
+def GetInputWithReturn(text: str, filterDict: dict[str, bool], filterMode: str):
     oup = CustomInput.Input(text, filterDict, filterMode)
     # TODO: If not string then just return output (or is this always string idk)
 
@@ -94,8 +94,8 @@ def Init(SystemManager):
             return successData
 
         return anonymous
-        
-    def GetEditAttributePostExe(propName, propDisplayName):
+
+    def GetEditAttributePostExe(propName: str, propDisplayName: str) -> function:
         def anonymous(successData):
             student = SystemManager.CurrentStudent
 
@@ -113,7 +113,7 @@ def Init(SystemManager):
 
         print("")
 
-    def GetNormalAddPostExe():
+    def GetNormalAddPostExe() -> None:
         pass
 
 
@@ -122,6 +122,10 @@ def Init(SystemManager):
             print(student)
 
         return ReturnSuccessRetry(True, False)
+
+    def GenerateID() -> str:
+        # return "SE21"+str(len(SystemManager.Students))
+        return "dsjahdjadhkuas"
 
     Nodes = {
         "Home": {
@@ -179,11 +183,13 @@ def Init(SystemManager):
 
         "NewIDMode":{
             "Text": "Auto, Manual"
-        }
-        "Auto":{
-
-        }
-        "Manual": {
-            
+        },
+        "Auto ID":{
+            "Text": "",
+            "PreExe": print()
+        },
+        "Manual ID": {
+            "Text": "",
+            "PreExe": print()
         }
     }

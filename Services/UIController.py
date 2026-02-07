@@ -1,4 +1,4 @@
-from Shared.Data import UIModeData
+from Shared.Data import CLICommands
 from Utils import CustomInput
 
 import os
@@ -22,7 +22,7 @@ class new:
         # inp = CustomInput.Input('', {"Int": True}, "Include")
         self.WaitForContinuation()
 
-        #TODO: find all choices in UIModeData.py, then call SystemManagerService to do the relevant functions
+        #TODO: find all choices in CLICommands.py, then call SystemManagerService to do the relevant functions
 
     def Next(self, idx):
         if self.Current == "Home" and self.Selections[idx] == "Return":
@@ -38,10 +38,10 @@ class new:
         if isReturnCMD:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
 
-        node = UIModeData.Nodes[self.Current]
+        node = CLICommands.Nodes[self.Current]
         # Only execute if found the PreExe function of the node (nodes like Home won't have any so just skip)
         if "PreExe" in node:
-            successData = UIModeData.ReturnSuccessRetry(False, True)
+            successData = CLICommands.ReturnSuccessRetry(False, True)
 
             while successData["Retry"]:
                 successData = node["PreExe"]()
@@ -80,7 +80,7 @@ class new:
         # return AllModes
     
     def ComputeSelections(self):
-        optionText = UIModeData.Nodes[self.Current]["Text"]
+        optionText = CLICommands.Nodes[self.Current]["Text"]
         if len(optionText) >= 1:
             optionText = "Return, " + optionText
         else:

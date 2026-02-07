@@ -7,10 +7,10 @@ from Services import UIController
 from Utils.Signal import Signal
 from Utils import CustomInput
 
-from Shared.Data import UIModeData
+from Shared.Data import CLICommands
 
 SystemManager = SystemManagerService.new()
-UIModeData.Init(SystemManager)
+CLICommands.Init(SystemManager)
 
 CLI = UIController.new()
 

@@ -24,26 +24,31 @@ class new:
 
         #TODO: find all choices in CLICommands.py, then call SystemManagerService to do the relevant functions
 
-    def Next(self, idx):
-        if self.Current == "Home" and self.Selections[idx] == "Return":
-            self.WaitForContinuation()
-            return
+    def Next(self, idx=-1, shouldReturn=False):
+        # If it's should return then idx wouldn't exist
+        if not shouldReturn:
+            if self.Current == "Home" and self.Selections[idx] == "Return":
+                self.WaitForContinuation()
+                return
+            
+            oldCurrent = self.Current
 
-        ClearCLI()
-        oldCurrent = self.Current
+            self.Current = self.Selections[idx]
+            isReturnCMD = self.Current == "Return"
 
-        self.Current = self.Selections[idx]
-        isReturnCMD = self.Current == "Return"
-
-        if isReturnCMD:
-            self.Current = "Home" if not self.Prev else self.Prev.pop()
+            if isReturnCMD:
+                self.Next(shouldReturn=True)
+                return
+            else:
+                self.Prev.append(oldCurrent)
         else:
-            self.Prev.append(oldCurrent)
+            self.Current = "Home" if not self.Prev else self.Prev.pop()
 
         node = CLICommands.Nodes[self.Current]
         # Only execute if found the PreExe function of the node (nodes like Home won't have any so just skip)
         # If found PreExe then PostExe can only run after PreExe fulfill the conditions
         # Otherwise PostExe can run standalone
+        ClearCLI()
         if "PreExe" in node:
             successData = CLICommands.ReturnSuccessRetry(False, True)
 
@@ -51,8 +56,9 @@ class new:
                 successData = node["PreExe"]()
             
             if not successData["Success"]:
-                self.Current = "Home" if not self.Prev else self.Prev.pop()
                 ClearCLI()
+                self.Next(shouldReturn=True)
+                return
             else:
                 if "PostExe" in node: node["PostExe"](successData)
 
@@ -61,9 +67,7 @@ class new:
         else:
             # Since there's no "PreExe", there's no success data for commands with only PostExe
             if "PostExe" in node: node["PostExe"]()
-            print("did post exe")
-
-
+            
         self.ComputeSelections()
         self.Display()
 

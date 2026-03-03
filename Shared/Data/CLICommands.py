@@ -1,6 +1,7 @@
 from Utils import CustomInput
 
 Nodes = {}
+# This script is just hard coded commands
 
 def GetInputWithReturn(text: str, filterDict: dict[str, bool], filterMode: str):
     oup = CustomInput.Input(text, filterDict, filterMode)
@@ -107,7 +108,7 @@ def Init(SystemManager):
 
         return anonymous
 
-    def GetEditAttributePostExe(propName: str, propDisplayName: str) -> function:
+    def GetEditAttributePostExe(propName: str, propDisplayName: str):
         def anonymous(successData):
             student = SystemManager.CurrentStudent
 

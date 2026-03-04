@@ -76,7 +76,7 @@ with open("SaveData.txt") as f:
 def Serialize(data):
     scores = data.Scores._subjects
 
-    return f'{data.ID},{data.Name},{data.BirthYear},{data.Major},{scores["Math"]},{scores["Physics"]},{scores["PE"]},{scores["Geography\n"]}'
+    return f'{data.ID},{data.Name},{data.BirthYear},{data.Major},{scores["Math"]},{scores["Physics"]},{scores["PE"]},{scores["Geography"]}\n'
 
 def save(path):
     f = open(path, "w")

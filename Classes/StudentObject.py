@@ -8,8 +8,15 @@ class Student:
         self.BirthYear = BirthYear
         self.Major = Major
         self.Scores = Scores
+        self.GPA = Scores.CalculateGPA()
         # Not used as of right now, was drafted in during planning process, may not need anymore.
         self._IDVerificationFunc: Callable[..., str]
+
+        # Whenever any score is changed, the GPA instantly updates
+        def setGPA():
+            self.GPA = Scores.CalculateGPA()
+
+        Scores.SetChangedCallback(setGPA)
         
     def __str__(self):
         return f'[{self.ID}] {self.Name}, Born in {self.BirthYear}, Major: {self.Major}'

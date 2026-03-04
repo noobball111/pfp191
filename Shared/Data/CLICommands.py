@@ -257,6 +257,21 @@ def Init(SystemManager):
     def _deleteStudentPostExe(successData):
         print(f"Successfully deleted student [{successData["DeletedStudent"].ID}] - {successData["DeletedStudent"].Name}")
 
+    def GetSortPreExe(sortType):
+        def anonymous():
+            SystemManager.Students = sorted(SystemManager.Students, key=lambda student: getattr(student, sortType))
+            return ReturnSuccessRetry(True, False)
+
+        return anonymous
+
+    def GetSortPostExe(sortType):
+        def anonymous(successData):
+            _displayStudentListPostExe()
+            print(f"Successfully sorted Students by {sortType}!")
+            
+
+        return anonymous
+
     Nodes = {
         "Home": {
             "Text": "Find A Student, Manage Students, Sort Scores, Display Student List",
@@ -340,5 +355,36 @@ def Init(SystemManager):
             "Text": "",
             "PreExe": _deleteStudentPreExe,
             "PostExe": _deleteStudentPostExe,
+        },
+        
+        #Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major
+        "Sort by ID": {
+            "Text": "Edit A Student, Sort by GPA, Sort by Name, Sort by Birth Year, Sort by Major",
+            "PreExe": GetSortPreExe("ID"),
+            "PostExe": GetSortPostExe("ID"),
+        },
+
+        "Sort by GPA": {
+            "Text": "Edit A Student, Sort by ID, Sort by Name, Sort by Birth Year, Sort by Major",
+            "PreExe": GetSortPreExe("GPA"),
+            "PostExe": GetSortPostExe("GPA"),
+        },
+
+        "Sort by Name": {
+            "Text": "Edit A Student, Sort by ID, Sort by GPA, Sort by Birth Year, Sort by Major",
+            "PreExe": GetSortPreExe("Name"),
+            "PostExe": GetSortPostExe("Name"),
+        },
+
+        "Sort by Birth Year": {
+            "Text": "Edit A Student, Sort by ID, Sort by GPA, Sort by Name, Sort by Major",
+            "PreExe": GetSortPreExe("BirthYear"),
+            "PostExe": GetSortPostExe("BirthYear"),
+        },
+
+        "Sort by Major": {
+            "Text": "Edit A Student, Sort by ID, Sort by GPA, Sort by Name, Sort by Birth Year",
+            "PreExe": GetSortPreExe("Major"),
+            "PostExe": GetSortPostExe("Major"),
         },
     }

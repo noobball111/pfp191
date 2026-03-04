@@ -60,7 +60,7 @@ with open("SaveData.txt") as f:
             for j in range(len(subjects)):
                 # subjects[j] = the subject name
                 # words[j + 4] = the score, because the first 4 elements are ID, Name, BirthYear and Major
-                subjectScores[subjects[j]] = words[j + 4]
+                subjectScores[subjects[j]] = float(words[j + 4])
             
             # Create a new scores object from the subjectScores dictionary
             scores = Scores(subjectScores)
@@ -76,7 +76,7 @@ with open("SaveData.txt") as f:
             SystemManager.SubjectList = subjects
 
 # Start the Console Interface
-# CLI.Start()
+CLI.Start()
 
 
 def Serialize(data):

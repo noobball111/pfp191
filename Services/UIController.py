@@ -47,6 +47,7 @@ class new:
         else:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
 
+        # TODO: Don't add history for Sort commands
         path = ""
         for item in self.Prev:
             path += item + " -> "

@@ -46,6 +46,7 @@ class new:
     #             self.DeleteStudentFromID(student.ID)
 
     def AddStudent(self, student):
+        # print(student)
         # Check if there's a duplicated ID
         if self.FromID(student.ID):
             print("Duplicated ID")
@@ -54,6 +55,9 @@ class new:
         # If no duplicated ID then add the student to the Students list, and listing their ID as the key for LookupStudents
         self.Students.append(student)
         self.LookupStudents[student.ID] = student
+
+    def GetStudents(self):
+        return self.Students
         
     def FromID(self, ID):
         # if self.LookupStudents[ID] == None: return

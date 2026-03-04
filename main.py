@@ -82,15 +82,23 @@ with open("SaveData.txt") as f:
 def Serialize(data):
     scores = data.Scores._subjects
 
-    return f'{data.ID},{data.Name},{data.BirthYear},{data.Major},{scores["Math"]},{scores["Physics"]},{scores["PE"]},{scores["Geography"]}\n'
+    res = f'{data.ID},{data.Name},{data.BirthYear},{data.Major},'
+    for v in subjects:
+        # res += {scores["Math"]},{scores["Physics"]},{scores["PE"]},{scores["Geography"]}\n
+        res += f'{scores[v]},'
+    
+    return res[0:-2] + "\n"
 
 def save(path):
     f = open(path, "w")
 
-    # print(SystemManager.Students)
+    Header = ""
+    for v in subjects:
+        Header += v+","
+    Header[0:-2]
 
-    # Math,Physics,PE,Geography
-    f.write("Math,Physics,PE,Geography\n")
+    f.write(Header)
+    
     for student in SystemManager.GetStudents():
         print(student.Scores._subjects)
         f.write(Serialize(student))

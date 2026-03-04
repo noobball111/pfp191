@@ -84,6 +84,7 @@ def save(path):
     # print(SystemManager.Students)
 
     # Math,Physics,PE,Geography
+    f.write("Math,Physics,PE,Geography\n")
     for student in SystemManager.GetStudents():
         print(student.Scores._subjects)
         f.write(Serialize(student))

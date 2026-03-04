@@ -87,7 +87,7 @@ def Serialize(data):
         # res += {scores["Math"]},{scores["Physics"]},{scores["PE"]},{scores["Geography"]}\n
         res += f'{scores[v]},'
     
-    return res[0:-2] + "\n"
+    return res[0:-1] + "\n"
 
 def save(path):
     f = open(path, "w")
@@ -95,7 +95,7 @@ def save(path):
     Header = ""
     for v in subjects:
         Header += v+","
-    Header[0:-2]
+    Header = Header[0:-1] + "\n"
 
     f.write(Header)
     

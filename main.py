@@ -36,7 +36,7 @@ with open("SaveData.txt") as f:
 
         # Declare words as a list/collection by separating with ',' from the file
         words = line.split(',')
-        
+        # print(words)
         if i == 1:
             # i == 1 because the first line is just for registering subjects
             # the number of subjects is defined by the length of the list/collection words we listed above
@@ -65,13 +65,35 @@ with open("SaveData.txt") as f:
             # Create a new scores object from the subjectScores dictionary
             scores = Scores(subjectScores)
             # Create a new student object from their ID, Name, BirthYear, Major and the scores object just created above
-            student = Student(words[0], words[1], words[2], words[3], scores)
+            student = Student(words[0], words[1], int(words[2]), words[3], scores)
 
             # Add the student to the SystemManager to easily manage students
             SystemManager.AddStudent(student)
+            # print(student, subjectScores)
+    # print(SystemManager.GetStudents())
 
             # Set SystemManager's subjectlist to the subjects found.
             SystemManager.SubjectList = subjects
 
 # Start the Console Interface
-CLI.Start()
+# CLI.Start()
+
+
+def Serialize(data):
+    scores = data.Scores._subjects
+
+    return f'{data.ID},{data.Name},{data.BirthYear},{data.Major},{scores["Math"]},{scores["Physics"]},{scores["PE"]},{scores["Geography"]}\n'
+
+def save(path):
+    f = open(path, "w")
+
+    # print(SystemManager.Students)
+
+    # Math,Physics,PE,Geography
+    for student in SystemManager.GetStudents():
+        print(student.Scores._subjects)
+        f.write(Serialize(student))
+    
+    f.close()
+
+save("SaveData.txt")

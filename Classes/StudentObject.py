@@ -1,7 +1,8 @@
 from typing import Any, Callable
+from Classes.ScoresObject import Scores
 
 class Student:
-    def __init__(self, ID: str, Name: str, BirthYear: int, Major: str, Scores: dict[str, int]):
+    def __init__(self, ID: str, Name: str, BirthYear: int, Major: str, Scores: Scores):
         self.ID = ID
         self.Name = Name
         self.BirthYear = BirthYear

@@ -1,3 +1,6 @@
+from Classes.StudentObject import Student
+from Classes.ScoresObject import Scores
+
 from Utils import CustomInput
 
 Nodes = {}
@@ -118,16 +121,103 @@ def Init(SystemManager):
 
         return anonymous
     
-    def GetNormalAddPreExe():
+    def _normalAddPreExe():
         print("Type \"/r | /return\" to go back at any time...")
 
-        Name = GetInputWithReturn("Enter Student's Name: ", {"Int": True, "Float": True}, "Exclude")
-        if Name == "/r": return ReturnSuccessRetry(False, False)
+        id = GetInputWithReturn("Enter Student's ID: ", {"Float": True}, "Exclude")
+        if id == "/r": return ReturnSuccessRetry(False, False)
 
-        print("")
+        name = GetInputWithReturn("Enter Student's Name: ", {"Int": True, "Float": True}, "Exclude")
+        if name == "/r": return ReturnSuccessRetry(False, False)
 
-    def GetNormalAddPostExe() -> None:
-        pass
+        birthYear = GetInputWithReturn("Enter Student's Birth Year: ", {"Int": True}, "Include")
+        if birthYear == "/r": return ReturnSuccessRetry(False, False)
+
+        major = GetInputWithReturn("Enter Student's Major: ", {"Int": True, "Float": True}, "Exclude")
+        if major == "/r": return ReturnSuccessRetry(False, False)
+
+        # Declare a dictionary (key = subject's name | value = the score)
+        subjectScores = {}
+        subjectText = ""
+        for subject in SystemManager.SubjectList:
+            subjectScores[subject] = GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include")
+            subjectText += f"\n[{subject}'s Score]: {subjectScores[subject]}"
+
+        print(
+        f"""Are you sure you want to add a new student with this info? [Y/N]
+[ID]: {id}
+[Name]: {name}
+[Birth Year]: {birthYear}
+[Major]: {major}{subjectText}
+        """)
+
+        key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
+        
+        successData = ReturnSuccessRetry(True, key.lower() != 'y')
+        successData["ID"] = id
+        successData["Name"] = name
+        successData["BirthYear"] = birthYear
+        successData["Major"] = major
+        successData["Scores"] = subjectScores
+
+        return successData
+
+    def _quickAddPreExe():
+        print("Type \"/r | /return\" to go back at any time...")
+        subjectText = ""
+        for subject in SystemManager.SubjectList:
+            subjectText += f",{subject}'s Score"
+
+        print("Enter the student's info in the following format:")
+
+        fullInfo = GetInputWithReturn(f"ID,Name,Birth Year,Major{subjectText}\n", {"Int": True, "Float": True}, "Exclude")
+        if fullInfo == "/r": return ReturnSuccessRetry(False, False)
+
+        while len(fullInfo.split(',')) != 4 + len(SystemManager.SubjectList):
+            print(len(fullInfo.split(',')))
+            print(4 + len(SystemManager.SubjectList))
+            print("Invalid number of inputs, please retry:")
+            fullInfo = GetInputWithReturn(f"ID,Name,Birth Year,Major{subjectText}\n", {"Int": True, "Float": True}, "Exclude")
+            if fullInfo == "/r": return ReturnSuccessRetry(False, False)
+
+
+        data = fullInfo.split(',')
+
+        # Declare a dictionary (key = subject's name | value = the score)
+        subjectScores = {}
+        subjectText = ""
+
+        # TODO: (Optional) Type check the data so scores cant be string, and birth year cant be string
+
+        for i in range(4, len(data)):
+            subjectScores[subject] = float(data[i])
+            subjectText += f"\n[{subject}'s Score]: {subjectScores[subject]}"
+
+        print(
+        f"""Are you sure you want to add a new student with this info? [Y/N]
+[ID]: {data[0]}
+[Name]: {data[1]}
+[Birth Year]: {data[2]}
+[Major]: {data[3]}{subjectText}
+        """)
+
+        key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
+        
+        successData = ReturnSuccessRetry(True, key.lower() != 'y')
+        successData["ID"] = data[0]
+        successData["Name"] = data[1]
+        successData["BirthYear"] = data[2]
+        successData["Major"] = data[3]
+        successData["Scores"] = subjectScores
+
+        return successData
+
+    def _addPostExe(successData) -> None:
+        newStudent = Student(successData["ID"], successData["Name"], successData["BirthYear"], successData["Major"], successData["Scores"])
+        SystemManager.AddStudent(newStudent)
+
+        print(f"Successfully added [{successData["ID"]}] {successData["Name"]} to the Database!")
+        print(newStudent)
 
 
     def _displayStudentListPostExe():
@@ -219,11 +309,14 @@ def Init(SystemManager):
             "Text": "Normal Add, Quick Add",
         },
         "Normal Add": {
-            "Text": "",
-            "PreExe": ""
+            "Text": "Normal Add, Quick Add",
+            "PreExe": _normalAddPreExe,
+            "PostExe": _addPostExe,
         },
         "Quick Add": {
-
+            "Text": "Normal Add, Quick Add",
+            "PreExe": _quickAddPreExe,
+            "PostExe": _addPostExe,
         },
 
         "NewIDMode":{

@@ -31,6 +31,9 @@ with open("SaveData.txt") as f:
     for line in f:
         # Increment i
         i += 1
+        # Remove \n from the line
+        line = line.replace("\n", "")
+
         # Declare words as a list/collection by separating with ',' from the file
         words = line.split(',')
         # print(words)
@@ -68,6 +71,9 @@ with open("SaveData.txt") as f:
             SystemManager.AddStudent(student)
             # print(student, subjectScores)
     # print(SystemManager.GetStudents())
+
+            # Set SystemManager's subjectlist to the subjects found.
+            SystemManager.SubjectList = subjects
 
 # Start the Console Interface
 # CLI.Start()

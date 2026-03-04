@@ -9,6 +9,9 @@ class new:
         # _lastSortKey is a private variable, used for knowing the current way the data is sorted in (If "ID" then the data is sorted by ID now)
         self.Students = []
         self.LookupStudents = {}
+
+        self.SubjectList = []
+
         self._lastSortKey = "ID" 
 
     #     SignalBank.SystemManagerCalled.Connect(self.All)

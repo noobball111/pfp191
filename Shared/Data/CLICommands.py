@@ -140,7 +140,7 @@ def Init(SystemManager):
         subjectScores = {}
         subjectText = ""
         for subject in SystemManager.SubjectList:
-            subjectScores[subject] = GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include")
+            subjectScores[subject] = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
             subjectText += f"\n[{subject}'s Score]: {subjectScores[subject]}"
 
         print(
@@ -219,6 +219,34 @@ def Init(SystemManager):
         print(f"Successfully added [{successData["ID"]}] {successData["Name"]} to the Database!")
         print(newStudent)
 
+    def _editScoresPreExe():
+        student = SystemManager.CurrentStudent
+
+        subjectScores = {}
+        subjectText = ""
+
+        for subject in SystemManager.SubjectList:
+            subjectScores[subject] = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
+            subjectText += f"[{subject}'s Score]: {student.Scores.Get(subject)} -> {subjectScores[subject]}\n"
+
+        print(f"Are you sure you want to change [{student.ID}] {student.Name} to: [Y/N]\n{subjectText}")
+        
+        key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
+        
+        successData = ReturnSuccessRetry(True, key.lower() != 'y')
+        successData["Scores"] = subjectScores
+
+        return successData
+
+    def _editScoresPostExe(successData):
+        student = SystemManager.CurrentStudent
+
+        for subject, score in successData["Scores"].items():
+            student.Scores.Edit(subject, score)
+
+        print(f"Successfully changed [{student.ID}] {student.Name}'s Scores!")
+        print(student)
+
 
     def _displayStudentListPostExe():
         for student in SystemManager.Students:
@@ -229,10 +257,6 @@ def Init(SystemManager):
     # def GenerateID() -> str:
     #     # return "SE21"+str(len(SystemManager.Students))
     #     return "dsjahdjadhkuas"
-
-    def _editScoresPreExe():
-        # TODO: Display all subjects in alphabetical order, then let the user choose the subject in question
-        pass
 
     def _deleteStudentPreExe():
         # This should never happen but just incase ykyk
@@ -308,11 +332,11 @@ def Init(SystemManager):
             "PreExe": GetEditAttributePreExe("Major", "Major", {"Int": True, "Float": True}, "Exclude"),
             "PostExe": GetEditAttributePostExe("Major", "Major"),
         },
-        # "Edit Scores": {
-        #     "Text": "",
-        #     "PreExe": _editNamePreExe,
-        #     "PostExe": _editNamePostExe,
-        # },
+        "Edit Scores": {
+            "Text": "",
+            "PreExe": _editScoresPreExe,
+            "PostExe": _editScoresPostExe,
+        },
         "Delete The Student": {
             "Text": "",
             "PreExe": _deleteStudentPreExe,

@@ -13,7 +13,7 @@ class Student:
         self._IDVerificationFunc: Callable[..., str]
 
         # Whenever any score is changed, the GPA instantly updates
-        def setGPA():
+        def setGPA(_a, _b):
             self.GPA = Scores.CalculateGPA()
 
         Scores.SetChangedCallback(setGPA)

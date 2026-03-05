@@ -8,9 +8,12 @@ class Scores:
         # This function will run whenever Edit successfully ran (basically when a score is changed, useful for binding this with CalculateGPA so it refreshes with every edit)
         self._onChangedCallback = func
         
-    def Edit(self, subject: str, value: int):
+    def Get(self, subject: str):
+        return self._subjects[subject]
+
+    def Edit(self, subject: str, value: float):
         # Check if the subject exists
-        if self._subjects[subject] != int:
+        if type(self._subjects[subject]) is not float:
             print("No valid subject for", subject)
             return
         

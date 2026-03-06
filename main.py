@@ -11,6 +11,11 @@ from Utils import CustomInput
 
 from Shared.Data import CLICommands
 
+SAVE_FILE_NAME = "SaveData"
+FILE_EXTENSION = ".txt"
+
+SAVE_FILE = SAVE_FILE_NAME+FILE_EXTENSION
+
 # Create a new SystemManager
 SystemManager = SystemManagerService.new()
 # Initialize the console commands by passing in the SystemManager so it has a reference
@@ -52,11 +57,11 @@ def save(path):
     f.close()
 
 
-# Open SaveData.txt as f
-with open("SaveData.txt") as f:
+# Open save_file as f
+with open(SAVE_FILE) as f:
     # Declare i 
     i = 0
-    # Loop through each line in f (SaveData.txt)
+    # Loop through each line in f (SAVE_FILE)
     for line in f:
         # Increment i
         i += 1
@@ -107,19 +112,19 @@ with open("SaveData.txt") as f:
 import datetime
 
 DateTime = datetime.datetime
-BackupString = str(DateTime.now()).split(" ")
-BackupString = BackupString[0] + "_" + BackupString[1].split(".")[0]
-
-BackupFolder = "Backup/"
+DateTimeString = str(DateTime.now()).split(" ")
+BackupName = DateTimeString[0] + "_" + DateTimeString[1].split(".")[0].replace(":", ".")
+BackupFolder = "Backup\\"
+Path = BackupFolder + SAVE_FILE_NAME + BackupName + FILE_EXTENSION
 
 #Backup
 # print("Creating backup from old save file")
-save(f'{BackupFolder}SaveData{BackupString}.txt')
+save(Path)
 
 # Start the Console Interface
 CLI.Start()
 
 
 print("Saving")
-save("SaveData.txt")
+save(SAVE_FILE_NAME)
 print("Saved")

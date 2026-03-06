@@ -1,4 +1,4 @@
 Math,Physics,PE,Geography
-SE210001,omgpenis123,1827,Human Reproduction,10.0,10.0,10.0,10.0
-SE210003,FunnyNameNice,1999,Black Men,0.0,1.0,2.0,3.0
-SE210002,FunnyNameNice,1999,Black Men,0.0,1.0,2.0,3.0
+SE210001,Pham Van Hoang Minh,1827,Automation Tech,10.0,10.0,10.0,10.0
+SE210003,Thanh,1999,CS,0.0,1.0,2.0,3.0
+SE210002,Nguyễn Văn A,1999,Digital Marketing,0.0,1.0,2.0,3.0

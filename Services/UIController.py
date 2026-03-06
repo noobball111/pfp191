@@ -58,9 +58,9 @@ class new:
 
         ClearCLI()
 
-        # Exist regard the progress
+        # Exit regard the progress
         # print(self.Current, "AAAAAAAAAAAAAAAAAAAAAAAAAA")
-        if self.Current == "Exist":
+        if self.Current == "Exit":
             return
 
         print(f"[Path]: {path}")

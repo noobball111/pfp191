@@ -11,6 +11,8 @@ from Utils import CustomInput
 
 from Shared.Data import CLICommands
 
+import datetime
+
 SAVE_FILE_NAME = "SaveData"
 FILE_EXTENSION = ".txt"
 
@@ -108,8 +110,6 @@ with open(SAVE_FILE) as f:
 
             # Set SystemManager's subjectlist to the subjects found.
             SystemManager.SubjectList = subjects
-
-import datetime
 
 DateTime = datetime.datetime
 DateTimeString = str(DateTime.now()).split(" ")

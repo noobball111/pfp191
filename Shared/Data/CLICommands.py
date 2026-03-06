@@ -190,6 +190,8 @@ def Init(SystemManager):
         # TODO: (Optional) Type check the data so scores cant be string, and birth year cant be string
 
         for i in range(4, len(data)):
+            subject = SystemManager.SubjectList[i - 4]
+
             subjectScores[subject] = float(data[i])
             subjectText += f"\n[{subject}'s Score]: {subjectScores[subject]}"
 
@@ -213,7 +215,7 @@ def Init(SystemManager):
         return successData
 
     def _addPostExe(successData) -> None:
-        newStudent = Student(successData["ID"], successData["Name"], successData["BirthYear"], successData["Major"], successData["Scores"])
+        newStudent = Student(successData["ID"], successData["Name"], successData["BirthYear"], successData["Major"], Scores(successData["Scores"]))
         SystemManager.AddStudent(newStudent)
 
         print(f"Successfully added [{successData["ID"]}] {successData["Name"]} to the Database!")
@@ -301,7 +303,7 @@ def Init(SystemManager):
 
     Nodes = {
         "Home": {
-            "Text": "Find A Student, Manage Students, Sort Scores, Display Student List, Exist",
+            "Text": "Find A Student, Manage Students, Sort Scores, Display Student List, Exit",
         },
 
         # #Exist

@@ -292,14 +292,23 @@ def Init(SystemManager):
         def anonymous(successData):
             _displayStudentListPostExe()
             print(f"Successfully sorted Students by {sortType}!")
-            
+    
+    def exist():
+        return
+    
 
         return anonymous
 
     Nodes = {
         "Home": {
-            "Text": "Find A Student, Manage Students, Sort Scores, Display Student List",
+            "Text": "Find A Student, Manage Students, Sort Scores, Display Student List, Exist",
         },
+
+        # #Exist
+        # "Exist": {
+        #     "Text": "",
+        #     "PostExe": exist()
+        # },
 
         "Find A Student": {
             "Text": "Find A Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",

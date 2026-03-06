@@ -23,6 +23,35 @@ CLI = UIController.new()
 subjectAmount = 0
 subjects = []
 
+### FUnctions ###
+
+def Serialize(data):
+    scores = data.Scores._subjects
+
+    res = f'{data.ID},{data.Name},{data.BirthYear},{data.Major},'
+    for v in subjects:
+        # res += {scores["Math"]},{scores["Physics"]},{scores["PE"]},{scores["Geography"]}\n
+        res += f'{scores[v]},'
+    
+    return res[0:-1] + "\n"
+
+def save(path):
+    f = open(path, "w")
+
+    Header = ""
+    for v in subjects:
+        Header += v+","
+    Header = Header[0:-1] + "\n"
+
+    f.write(Header)
+    
+    for student in SystemManager.GetStudents():
+        print(student.Scores._subjects)
+        f.write(Serialize(student))
+    
+    f.close()
+
+
 # Open SaveData.txt as f
 with open("SaveData.txt") as f:
     # Declare i 
@@ -79,30 +108,6 @@ with open("SaveData.txt") as f:
 CLI.Start()
 
 
-def Serialize(data):
-    scores = data.Scores._subjects
-
-    res = f'{data.ID},{data.Name},{data.BirthYear},{data.Major},'
-    for v in subjects:
-        # res += {scores["Math"]},{scores["Physics"]},{scores["PE"]},{scores["Geography"]}\n
-        res += f'{scores[v]},'
-    
-    return res[0:-1] + "\n"
-
-def save(path):
-    f = open(path, "w")
-
-    Header = ""
-    for v in subjects:
-        Header += v+","
-    Header = Header[0:-1] + "\n"
-
-    f.write(Header)
-    
-    for student in SystemManager.GetStudents():
-        print(student.Scores._subjects)
-        f.write(Serialize(student))
-    
-    f.close()
-
+print("Saving")
 save("SaveData.txt")
+print("Saved")

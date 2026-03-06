@@ -15,7 +15,6 @@ class new:
     
     def Start(self):
         ClearCLI()
-
         print(f"[Path]: Home")
         print("------------------------------")
 
@@ -58,6 +57,11 @@ class new:
             path = path[:-4]
 
         ClearCLI()
+
+        # Exist regard the progress
+        print(self.Current, "AAAAAAAAAAAAAAAAAAAAAAAAAA")
+        if self.Current == "Exist":
+            return
 
         print(f"[Path]: {path}")
         print("------------------------------")

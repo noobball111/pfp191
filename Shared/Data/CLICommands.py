@@ -294,6 +294,8 @@ def Init(SystemManager):
         def anonymous(successData):
             _displayStudentListPostExe()
             print(f"Successfully sorted Students by {sortType}!")
+
+        return anonymous
     
     def exist():
         return

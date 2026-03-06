@@ -46,7 +46,7 @@ def save(path):
     f.write(Header)
     
     for student in SystemManager.GetStudents():
-        print(student.Scores._subjects)
+        # print(student.Scores._subjects)
         f.write(Serialize(student))
     
     f.close()
@@ -103,6 +103,18 @@ with open("SaveData.txt") as f:
 
             # Set SystemManager's subjectlist to the subjects found.
             SystemManager.SubjectList = subjects
+
+import datetime
+
+DateTime = datetime.datetime
+BackupString = str(DateTime.now()).split(" ")
+BackupString = BackupString[0] + "_" + BackupString[1].split(".")[0]
+
+BackupFolder = "Backup/"
+
+#Backup
+# print("Creating backup from old save file")
+save(f'{BackupFolder}SaveData{BackupString}.txt')
 
 # Start the Console Interface
 CLI.Start()

@@ -59,7 +59,7 @@ class new:
         ClearCLI()
 
         # Exist regard the progress
-        print(self.Current, "AAAAAAAAAAAAAAAAAAAAAAAAAA")
+        # print(self.Current, "AAAAAAAAAAAAAAAAAAAAAAAAAA")
         if self.Current == "Exist":
             return
 

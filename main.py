@@ -126,5 +126,5 @@ CLI.Start()
 
 
 print("Saving")
-save(SAVE_FILE_NAME)
+save(SAVE_FILE)
 print("Saved")

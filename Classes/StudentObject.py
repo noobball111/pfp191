@@ -19,7 +19,7 @@ class Student:
         Scores.SetChangedCallback(setGPA)
         
     def __str__(self):
-        return f'[{self.ID}] {self.Name}, Born in {self.BirthYear}, Major: {self.Major}'
+        return f'[{self.ID}] {self.Name} - GPA: {self.GPA:.2f} | Born in {self.BirthYear}, Major: {self.Major}.'
     
     def Edit(self, key: str, value: Any):
         #If editting the ID then do an extra check to see if that ID is a duplicate

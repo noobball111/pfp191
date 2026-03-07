@@ -42,7 +42,8 @@ class new:
                 self.Next(shouldReturn=True)
                 return
             else:
-                self.Prev.append(oldCurrent)
+                if not "Sort" in oldCurrent and oldCurrent != self.Current:
+                    self.Prev.append(oldCurrent)
         else:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
 

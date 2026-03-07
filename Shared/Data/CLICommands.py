@@ -285,7 +285,8 @@ def Init(SystemManager):
 
     def GetSortPreExe(sortType):
         def anonymous():
-            SystemManager.Students = sorted(SystemManager.Students, key=lambda student: getattr(student, sortType))
+            isReverse = sortType == "GPA"
+            SystemManager.Students = sorted(SystemManager.Students, key=lambda student: getattr(student, sortType), reverse=isReverse)
             return ReturnSuccessRetry(True, False)
 
         return anonymous

@@ -1,3 +1,6 @@
 Math,Physics,PE,Geography
 SE210001,Pham Van Hoang Minh,1827,Automation Tech,10.0,10.0,10.0,10.0
+SE220973,Binh An,2000,Information Technology,9.2,8.37,5.29,3.28
+SE202729,Cuong,2001,Economics,8.2,9.0,3.0,5.0
+SE200928,Thinh,2003,CS,6.0,6.2,5.0,5.5
 SE210003,Thanh,1999,CS,0.0,1.0,2.0,3.0

@@ -73,7 +73,7 @@ class new:
         chosenStudents = []
         for student in self.Students:
             # Check if the student name matches with the name from the input
-            if student.Name != Name: continue
+            if student.Name.lower().replace(' ', '') != Name.lower().replace(' ', ''): continue
             chosenStudents.append(student)
             
         return chosenStudents

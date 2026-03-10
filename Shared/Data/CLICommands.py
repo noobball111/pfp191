@@ -216,10 +216,13 @@ def Init(SystemManager):
 
     def _addPostExe(successData) -> None:
         newStudent = Student(successData["ID"], successData["Name"], successData["BirthYear"], successData["Major"], Scores(successData["Scores"]))
-        SystemManager.AddStudent(newStudent)
+        success = SystemManager.AddStudent(newStudent)
 
-        print(f"Successfully added [{successData["ID"]}] {successData["Name"]} to the Database!")
-        print(newStudent)
+        if success:
+            print(f"Successfully added [{successData["ID"]}] {successData["Name"]} to the Database!")
+            print(newStudent)
+        else:
+            print(f"ID [{successData["ID"]}] is already in the database, please enter a valid ID.")
 
     def _editScoresPreExe():
         student = SystemManager.CurrentStudent

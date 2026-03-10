@@ -58,7 +58,6 @@ def save(path):
     
     f.close()
 
-
 # Open save_file as f
 with open(SAVE_FILE) as f:
     # Declare i 
@@ -104,7 +103,10 @@ with open(SAVE_FILE) as f:
             student = Student(words[0], words[1], int(words[2]), words[3], scores)
 
             # Add the student to the SystemManager to easily manage students
-            SystemManager.AddStudent(student)
+            success = SystemManager.AddStudent(student)
+            if not success:
+                print(f"ID Collision found: [{words[0]}] is already in the database!")
+                quit()
             # print(student, subjectScores)
     # print(SystemManager.GetStudents())
 

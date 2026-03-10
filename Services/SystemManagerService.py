@@ -12,7 +12,7 @@ class new:
 
         self.SubjectList = []
 
-        self._lastSortKey = "ID" 
+        # self._lastSortKey = "ID" 
 
     #     SignalBank.SystemManagerCalled.Connect(self.All)
 
@@ -52,12 +52,12 @@ class new:
         # print(student)
         # Check if there's a duplicated ID
         if self.FromID(student.ID):
-            print("Duplicated ID")
-            return
+            return False
         
         # If no duplicated ID then add the student to the Students list, and listing their ID as the key for LookupStudents
         self.Students.append(student)
         self.LookupStudents[student.ID] = student
+        return True
 
     def GetStudents(self):
         return self.Students

@@ -1,3 +1,31 @@
+import tkinter as tk
+
+def get_ghost_key():
+    root = tk.Tk()
+    
+    # 1. Make the window transparent (0.0 is invisible, 1.0 is solid)
+    root.attributes('-alpha', 0.0)
+    
+    # 2. Keep it on top of Thonny so it maintains focus
+    root.attributes('-topmost', True)
+    
+    # 3. Position it over the mouse or center (optional)
+    root.geometry("100x100+500+500")
+
+    key_pressed = [None]
+
+    def key_handler(event):
+        key_pressed[0] = event.keysym
+        root.destroy()
+
+    root.bind('<Key>', key_handler)
+    
+    # Focus the window so the user doesn't have to click it
+    root.focus_force()
+    
+    root.mainloop()
+    return key_pressed[0]
+
 import msvcrt
 # from typing import Any
 
@@ -25,7 +53,8 @@ def Exclude(value: str, FilterList: dict[str, bool]):
     return True
 
 def AwaitInput():
-    return msvcrt.getch().decode('utf-8')
+    # return msvcrt.getch().decode('utf-8')
+    return get_ghost_key()  
 
 def AwaitNumInputs() -> int:
     key = 'a'
@@ -42,7 +71,7 @@ def AwaitNumInputsBelow(n: int) -> int:
 
     return key
 
-def Input(Text: str, FilterList: dict[str, bool] = {}, FilterType: str | None = None, RetryUntilValid: bool = True):
+def Input(Text: str, FilterList: dict[str, bool] = {}, FilterType: str | None = None, RetryUntilValid: bool = True) -> str | tuple[str, bool | None]:
         
     """
     Filter List dict:

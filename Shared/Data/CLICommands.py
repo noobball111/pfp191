@@ -93,11 +93,11 @@ def Init(SystemManager):
             if student == None: return findSuccessData
 
             print("Type \"/r | /return\" to go back at any time...")
-            print(f"You are editting student [{student.ID}] - {getattr(student, "Name")}'s {propName}...")
+            print(f"You are editting student [{student.ID}] - {getattr(student, 'Name')}'s {propName}...")
 
             studentProp = getattr(student, propName)
 
-            newPropVal = GetInputWithReturn(f"Please enter {getattr(student, "Name")}'s new {propDisplayName}: ", filterDict, filterType) 
+            newPropVal = GetInputWithReturn(f"Please enter {getattr(student, 'Name')}'s new {propDisplayName}: ", filterDict, filterType) 
             if newPropVal == "/r": return ReturnSuccessRetry(False, False)
 
             print(f"Are you sure you want to change {studentProp} to {newPropVal}? [Y/N]")
@@ -219,10 +219,10 @@ def Init(SystemManager):
         success = SystemManager.AddStudent(newStudent)
 
         if success:
-            print(f"Successfully added [{successData["ID"]}] {successData["Name"]} to the Database!")
+            print(f"Successfully added [{successData['ID']}] {successData['Name']} to the Database!")
             print(newStudent)
         else:
-            print(f"ID [{successData["ID"]}] is already in the database, please enter a valid ID.")
+            print(f"ID [{successData['ID']}] is already in the database, please enter a valid ID.")
 
     def _editScoresPreExe():
         student = SystemManager.CurrentStudent
@@ -284,7 +284,7 @@ def Init(SystemManager):
         return successData
 
     def _deleteStudentPostExe(successData):
-        print(f"Successfully deleted student [{successData["DeletedStudent"].ID}] - {successData["DeletedStudent"].Name}")
+        print(f"Successfully deleted student [{successData['DeletedStudent'].ID}] - {successData['DeletedStudent'].Name}")
 
     def GetSortPreExe(sortType):
         def anonymous():

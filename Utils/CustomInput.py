@@ -31,7 +31,7 @@ def IsFloat(value: str):
     except:
         return False
 
-def Include(value: str, FilterList: dict[str, bool]):
+def Include(value: str, FilterList):
     if value.isdigit() and FilterList["Int"]:
         return True
     if IsFloat(value) and FilterList["Float"]:

@@ -1,7 +1,7 @@
 from typing import Callable, Any
 
 class Scores:
-    def __init__(self, subjects: dict[str, int]):
+    def __init__(self, subjects: dict[str, float]):
         self._subjects = subjects
         
     def SetChangedCallback(self, func: Callable[..., Any]):

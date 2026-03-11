@@ -231,7 +231,12 @@ def Init(SystemManager):
         subjectText = ""
 
         for subject in SystemManager.SubjectList:
-            subjectScores[subject] = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
+            temp = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
+            while temp < 0 or temp > 10:
+                print("Invalid value. Make sure it is between 0-10")
+                temp = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
+
+            subjectScores[subject] = temp
             subjectText += f"[{subject}'s Score]: {student.Scores.Get(subject)} -> {subjectScores[subject]}\n"
 
         print(f"Are you sure you want to change [{student.ID}] {student.Name} to: [Y/N]\n{subjectText}")
@@ -341,7 +346,7 @@ def Init(SystemManager):
         },
         "Edit Birth Year": {
             "Text": "",
-            "PreExe": GetEditAttributePreExe("BirthYear", "Birth Year", {"Int": True}, "Include"),
+            "PreExe": GetEditAttributePreExe("BirthYear", "Birth Year", {"Int": True, "Float": False}, "Include"),
             "PostExe": GetEditAttributePostExe("BirthYear", "Birth Year"),
         },
         "Edit Major": {

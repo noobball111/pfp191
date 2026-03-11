@@ -2,15 +2,9 @@ import tkinter as tk
 
 def get_ghost_key():
     root = tk.Tk()
-    
-    # 1. Make the window transparent (0.0 is invisible, 1.0 is solid)
-    root.attributes('-alpha', 0.0)
-    
-    # 2. Keep it on top of Thonny so it maintains focus
+    root.attributes('-alpha', 0)
     root.attributes('-topmost', True)
-    
-    # 3. Position it over the mouse or center (optional)
-    root.geometry("100x100+500+500")
+    root.geometry("1920x1080")
 
     key_pressed = [None]
 
@@ -20,7 +14,6 @@ def get_ghost_key():
 
     root.bind('<Key>', key_handler)
     
-    # Focus the window so the user doesn't have to click it
     root.focus_force()
     
     root.mainloop()

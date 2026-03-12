@@ -3,14 +3,16 @@ from Classes.ScoresObject import Scores
 
 from Utils import CustomInput
 
+from datetime import datetime
+
 Nodes = {}
 # This script is just hard coded commands
 
 def GetInputWithReturn(text: str, filterDict: dict[str, bool], filterMode: str):
-    oup = CustomInput.Input(text, filterDict, filterMode)
+    oup, success = CustomInput.Input(text, filterDict, filterMode)
     # TODO: If not string then just return output (or is this always string idk)
 
-    if oup.lower() == "/r" or oup.lower() == "/return":
+    if oup == "/r":
         return "/r"
     return oup
 
@@ -104,11 +106,17 @@ def Init(SystemManager):
                 while SystemManager.FromID(newPropVal) is not None:
                     print(f"ID [{newPropVal}] is already in the database! Please enter a new ID!")
                     newPropVal = GetInputWithReturn(f"Please enter {getattr(student, 'Name')}'s new {propDisplayName}: ", filterDict, filterType)
+                    if newPropVal == "/r": return ReturnSuccessRetry(False, False)
+                    
             elif propName == "BirthYear":
                 newPropVal = int(newPropVal)
-                while newPropVal < 1950 or newPropVal > 2020:
-                    print(f"Birth year must be between 1950 to 2020!")
-                    newPropVal = int(GetInputWithReturn(f"Please enter {getattr(student, 'Name')}'s new {propDisplayName}: ", filterDict, filterType))
+                latestYear = datetime.now().year
+                while newPropVal < 1900 or newPropVal > latestYear:
+                    print(f"Birth year must be between 1900 to {latestYear}!")
+                    newPropVal = GetInputWithReturn(f"Please enter {getattr(student, 'Name')}'s new {propDisplayName}: ", filterDict, filterType)
+                    if newPropVal == "/r": return ReturnSuccessRetry(False, False)
+
+                    newPropVal = int(newPropVal)
 
             print(f"Are you sure you want to change {studentProp} to {newPropVal}? [Y/N]")
 
@@ -241,12 +249,17 @@ def Init(SystemManager):
         subjectText = ""
 
         for subject in SystemManager.SubjectList:
-            temp = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
+            temp = GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include")
             if temp == "/r": return ReturnSuccessRetry(False, False)
+
+            temp = float(temp)
+
             while temp < 0 or temp > 10:
                 print("Invalid value. Make sure it is between 0-10")
-                temp = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
+                temp = GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include")
                 if temp == "/r": return ReturnSuccessRetry(False, False)
+
+                temp = float(temp)
 
             subjectScores[subject] = temp
             subjectText += f"[{subject}'s Score]: {student.Scores.Get(subject)} -> {subjectScores[subject]}\n"
@@ -422,7 +435,7 @@ def Init(SystemManager):
         # },
 
         "Edit A Student": {
-            "Text": "Find A Student, Display Data, Edit ID,, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
+            "Text": "Find A Student, Display Data, Edit ID, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
             "PreExe": _findAStudentPreExe,
         },
 

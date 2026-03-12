@@ -100,6 +100,16 @@ def Init(SystemManager):
             newPropVal = GetInputWithReturn(f"Please enter {getattr(student, 'Name')}'s new {propDisplayName}: ", filterDict, filterType) 
             if newPropVal == "/r": return ReturnSuccessRetry(False, False)
 
+            if propName == "ID":
+                while SystemManager.FromID(newPropVal) is not None:
+                    print(f"ID [{newPropVal}] is already in the database! Please enter a new ID!")
+                    newPropVal = GetInputWithReturn(f"Please enter {getattr(student, 'Name')}'s new {propDisplayName}: ", filterDict, filterType)
+            elif propName == "BirthYear":
+                newPropVal = int(newPropVal)
+                while newPropVal < 1950 or newPropVal > 2020:
+                    print(f"Birth year must be between 1950 to 2020!")
+                    newPropVal = int(GetInputWithReturn(f"Please enter {getattr(student, 'Name')}'s new {propDisplayName}: ", filterDict, filterType))
+
             print(f"Are you sure you want to change {studentProp} to {newPropVal}? [Y/N]")
 
             key = GetInputWithReturn("", {"Int": True, "Float": True}, "Exclude") 
@@ -232,9 +242,11 @@ def Init(SystemManager):
 
         for subject in SystemManager.SubjectList:
             temp = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
+            if temp == "/r": return ReturnSuccessRetry(False, False)
             while temp < 0 or temp > 10:
                 print("Invalid value. Make sure it is between 0-10")
                 temp = float(GetInputWithReturn(f"Enter {subject}'s Score: ", {"Int": True, "Float": True}, "Include"))
+                if temp == "/r": return ReturnSuccessRetry(False, False)
 
             subjectScores[subject] = temp
             subjectText += f"[{subject}'s Score]: {student.Scores.Get(subject)} -> {subjectScores[subject]}\n"
@@ -256,6 +268,14 @@ def Init(SystemManager):
 
         print(f"Successfully changed [{student.ID}] {student.Name}'s Scores!")
         print(student)
+
+    def _displayDataPostExe():
+        findSuccessData, student = TryToFindCurrentStudent()
+        if student == None: return findSuccessData
+
+        student.Display()
+
+        return ReturnSuccessRetry(True, False)
 
 
     def _displayStudentListPostExe():
@@ -324,7 +344,7 @@ def Init(SystemManager):
         # },
 
         "Find A Student": {
-            "Text": "Find A Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
+            "Text": "Find A Student, Display Data, Edit ID, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
             "PreExe": _findAStudentPreExe,
         },
         "Manage Students": {
@@ -337,8 +357,17 @@ def Init(SystemManager):
             "Text": "Find A Student",
             "PostExe": _displayStudentListPostExe,
         },
+        "Display Data": {
+            "Text": "Find A Student, Edit ID, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
+            "PostExe": _displayDataPostExe,
+        },
 
         # Find A Student
+        "Edit ID": {
+            "Text": "",
+            "PreExe": GetEditAttributePreExe("ID", "ID", {"Float": True}, "Exclude"),
+            "PostExe": GetEditAttributePostExe("ID", "ID"),
+        },
         "Edit Name": {
             "Text": "",
             "PreExe": GetEditAttributePreExe("Name", "Name", {"Int": True, "Float": True}, "Exclude"),
@@ -380,20 +409,20 @@ def Init(SystemManager):
             "PostExe": _addPostExe,
         },
 
-        "NewIDMode":{
-            "Text": "Auto, Manual"
-        },
-        "Auto ID":{
-            "Text": "",
-            "PreExe": print()
-        },
-        "Manual ID": {
-            "Text": "",
-            "PreExe": print()
-        },
+        # "NewIDMode":{
+        #     "Text": "Auto, Manual"
+        # },
+        # "Auto ID":{
+        #     "Text": "",
+        #     "PreExe": print()
+        # },
+        # "Manual ID": {
+        #     "Text": "",
+        #     "PreExe": print()
+        # },
 
         "Edit A Student": {
-            "Text": "Find A Student, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
+            "Text": "Find A Student, Display Data, Edit ID,, Edit Name, Edit Birth Year, Edit Major, Edit Scores, Delete The Student",
             "PreExe": _findAStudentPreExe,
         },
 

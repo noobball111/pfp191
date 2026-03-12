@@ -7,6 +7,10 @@ import os
 def ClearCLI():
     os.system('cls')
 
+# Since we agreed this is not a main component so no need for flowcharts
+# I mean how do you even begin to map a flowchart on the Next() function
+# I can understand it cause I wrote it but like I have never made flowcharts on my code ever before
+
 class new:
     def __init__(self):
         self.Prev = []
@@ -15,6 +19,10 @@ class new:
     
     def Start(self):
         ClearCLI()
+        print("This program uses an invisible window to track real-time inputs, if your number keys aren't responding, please focus on the invisible window!")
+        print("We are sorry for the inconvenience!")
+        print("------------------------------")
+
         print(f"[Path]: Home")
         print("------------------------------")
 
@@ -47,7 +55,6 @@ class new:
         else:
             self.Current = "Home" if not self.Prev else self.Prev.pop()
 
-        # TODO: Don't add history for Sort commands
         path = ""
         for item in self.Prev:
             path += item + " -> "

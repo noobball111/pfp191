@@ -1,5 +1,7 @@
 import tkinter as tk
 
+# Band-aid and hacky solution to Thonny not liking real-time inputs
+# Next time lets just learn how to use tkinter and make the UI instead so we dont have to rely on console differences between VSCode and Thonny
 def get_ghost_key():
     root = tk.Tk()
     root.attributes('-alpha', 0)

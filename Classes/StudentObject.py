@@ -9,8 +9,6 @@ class Student:
         self.Major = Major
         self.Scores = Scores
         self.GPA = Scores.CalculateGPA()
-        # Not used as of right now, was drafted in during planning process, may not need anymore.
-        self._IDVerificationFunc: Callable[..., str]
 
         # Whenever any score is changed, the GPA instantly updates
         def setGPA(_a, _b):
@@ -22,14 +20,17 @@ class Student:
         return f'[{self.ID}] {self.Name} - GPA: {self.GPA:.2f} | Born in {self.BirthYear}, Major: {self.Major}.'
     
     def Edit(self, key: str, value: Any):
-        #If editting the ID then do an extra check to see if that ID is a duplicate
-        # Not used as of right now
-        if key == "ID" and self._IDVerificationFunc != None:
-            if self._IDVerificationFunc(value):
-                return False
-        
+        # ID Duplication is already done in the command
         setattr(self, key, value)
-        return True
     
     def Display(self):
-        print(self.ID, self.Name)
+        # Display everything
+        print(f"[ID]: {self.ID}")
+        print(f"[Name]: {self.Name}")
+        print(f"[Birth Year]: {self.BirthYear}")
+        print(f"[Major]: {self.Major}")
+        print("--------- Scores ---------")
+        print(f"[GPA]: {self.GPA}")
+
+        for subject, score in getattr(self.Scores, "_subjects").items():
+            print(f"[{subject}'s Score]: {score}")

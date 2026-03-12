@@ -6,6 +6,7 @@ class Scores:
         
     def SetChangedCallback(self, func: Callable[..., Any]):
         # This function will run whenever Edit successfully ran (basically when a score is changed, useful for binding this with CalculateGPA so it refreshes with every edit)
+        # Yes, this is a band-aid solution without a module like Signal
         self._onChangedCallback = func
         
     def Get(self, subject: str):

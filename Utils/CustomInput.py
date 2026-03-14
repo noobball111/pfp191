@@ -1,14 +1,12 @@
 import tkinter as tk
 
-# Band-aid and hacky solution to Thonny not liking real-time inputs
-# Next time lets just learn how to use tkinter and make the UI instead so we dont have to rely on console differences between VSCode and Thonny
-def get_ghost_key():
+def get_ghost_key() -> str:
     root = tk.Tk()
     root.attributes('-alpha', 0)
     root.attributes('-topmost', True)
     root.geometry("1920x1080")
 
-    key_pressed = [None]
+    key_pressed: list[str] = [str()]
 
     def key_handler(event):
         key_pressed[0] = event.keysym
@@ -33,7 +31,7 @@ def IsFloat(value: str):
     except:
         return False
 
-def Include(value: str, FilterList):
+def Include(value: str, FilterList: dict[str, bool]):
     if value.isdigit() and FilterList["Int"]:
         return True
     if IsFloat(value) and FilterList["Float"]:
@@ -77,9 +75,6 @@ def Input(Text: str, FilterList: dict[str, bool] = {}, FilterType: str | None = 
     success = False
     
     RawInput = input(Text)
-    if RawInput.lower() == "/r" or RawInput.lower() == "/return":
-        return "/r", True
-
     if FilterType == "Include":
         success = Include(RawInput, FilterList) 
     elif FilterType == "Exclude":
@@ -90,13 +85,10 @@ def Input(Text: str, FilterList: dict[str, bool] = {}, FilterType: str | None = 
     while (RetryUntilValid and not success):
         print("Invalid input, please re-enter!")
         RawInput = input(Text)
-        if RawInput.lower() == "/r" or RawInput.lower() == "/return":
-            return "/r", True
-
         if FilterType == "Include":
             success = Include(RawInput, FilterList) 
         elif FilterType == "Exclude":
             success = Exclude(RawInput, FilterList)
 
-    if RetryUntilValid: return RawInput, success
+    if RetryUntilValid: return RawInput
     return RawInput, success

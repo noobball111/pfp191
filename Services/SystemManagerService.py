@@ -98,25 +98,26 @@ class new:
     def DeleteStudentFromID(self, ID):
         # chosenStudent = self.LookupStudents[ID]
         # if ID not found in LookupStudents then the student with that ID doesn't exist
-        if not ID in self.LookupStudents: return
+        if not ID in self.LookupStudents: return False
 
         chosenStudent = self.LookupStudents[ID]
         
         # Remove the student with the ID from both Students (list) and LookupStudents (dictionary)
         self.Students.remove(chosenStudent)
         del self.LookupStudents[ID]
+        return True
         
-    def SortBy(self, key):
+    def SortBy(self, sortType):
         # Sort the Students list based on the key from the input (ID, Name, BirthYear, etc...)
 
-        self._lastSortKey = key
-        self.Students.sort(key=lambda student : student[key])
+        self._lastSortKey = sortType
+        isReverse = sortType == "GPA"
+
+        self.Students.sort(key=lambda student : getattr(student, sortType), reverse=isReverse)
         
-    def DisplayScores(self):
+    def DisplayAll(self):
         # Display all the students in the Students list
         for student in self.Students:
-            print(f'ID: {student.ID} | Name: {student.Name} | Birth Year: {student.BirthYear} | Major: {student.Major}')
-            for subject, score in student.Scores._subjects.items():
-                print(f'[{subject}]: {score}')
+            print(student)
     
         

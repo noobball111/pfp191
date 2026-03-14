@@ -292,8 +292,7 @@ def Init(SystemManager):
 
 
     def _displayStudentListPostExe():
-        for student in SystemManager.Students:
-            print(student)
+        SystemManager.DisplayAll()
 
         return ReturnSuccessRetry(True, False)
 
@@ -326,8 +325,7 @@ def Init(SystemManager):
 
     def GetSortPreExe(sortType):
         def anonymous():
-            isReverse = sortType == "GPA"
-            SystemManager.Students = sorted(SystemManager.Students, key=lambda student: getattr(student, sortType), reverse=isReverse)
+            SystemManager.SortBy(sortType)
             return ReturnSuccessRetry(True, False)
 
         return anonymous

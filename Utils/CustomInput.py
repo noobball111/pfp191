@@ -75,6 +75,9 @@ def Input(Text: str, FilterList: dict[str, bool] = {}, FilterType: str | None = 
     success = False
     
     RawInput = input(Text)
+    if RawInput.lower() == "/r" or RawInput.lower() == "/return":
+        return "/r", True
+
     if FilterType == "Include":
         success = Include(RawInput, FilterList) 
     elif FilterType == "Exclude":
@@ -85,10 +88,13 @@ def Input(Text: str, FilterList: dict[str, bool] = {}, FilterType: str | None = 
     while (RetryUntilValid and not success):
         print("Invalid input, please re-enter!")
         RawInput = input(Text)
+        if RawInput.lower() == "/r" or RawInput.lower() == "/return":
+            return "/r", True
+
         if FilterType == "Include":
             success = Include(RawInput, FilterList) 
         elif FilterType == "Exclude":
             success = Exclude(RawInput, FilterList)
 
-    if RetryUntilValid: return RawInput
+    if RetryUntilValid: return RawInput, success
     return RawInput, success
